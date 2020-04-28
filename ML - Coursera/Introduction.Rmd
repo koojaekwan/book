@@ -1,0 +1,250 @@
+---
+title: "Machine Learning with Coursera"
+author: "Jae Kwan Koo"
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  word_document: default
+  github_document:
+    toc: yes
+    toc_depth: 4
+---  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.height = 5, cache=F, dpi = 300, dev = "png")
+```  
+
+<style type="text/css">
+/* Whole document: */
+body{
+  font-family: Helvetica;
+  font-size: 14pt;
+}
+/* Headers */
+h1,h2,h3,h4,h5,h6{
+  font-size: 24pt;
+}
+</style>
+
+
+# Introduction  
+
+자기도 모르게 학습알고리즘을 하루에도 수 십번 사용 하고 있다.  
+
+* 검색엔진들이 검색을 잘 하기 위해서 학습 알고리즘이 사용된다. 또 이 알고리즘을 사용하여 구글이나 마이크로소프트에서 웹페이지들을 랭크 하게 된다.  
+
+* 페이스북이나 애플의 사진 어플리케이션을 사용 할 때, 우리와 친구들의 사진들을 인식하게 되는데 이것 또한 기계학습이다.  
+
+* 이메일을 사용 할 때, 이메일 스팸필터가 수많은 양의 스팸메일로부터 스팸메일을 걸러 주게 될 텐데, 이것 또한 학습알고리즘을 사용한 것이다.  
+
+<br>  
+
+아직 멀었지만, 많은 인공지는 연구자들의 최선의 목표는 학습 알고리즘을 인간의 뇌를 흉내내서 만들어 인간의 뇌와 비슷하게 학습하게 만드는 것이라고 한다.  
+
+**이 강의에서는 단지 어떤 알고리즘이 사용되는지 설명하고 그 알고리즘이 어떻게 유도되는지 수학적으로는 알 필요 없으니 걱정하지 말자.**  
+
+## Example  
+
+Machine Learning  
+- 기계학습에서 파생되었다.  
+- 기계가 새로운 능력을 가지기를 원한다.  
+
+
+Example :  
+
+- Database mining  
+    - web에서 자동으로 대량의 데이터를 수집하는 것  
+ex) web click data, medical records, biology, engineering  
+
+- Applications can't program by hand  
+ex) 자율주행 헬리콥터, 자연어처리, 손글씨 인식, 컴퓨터 비젼 등  
+
+- self-customizing programs  
+ex) 아마존, 넷플릭스의 상품 추천  
+
+- understading human learning(brain, real AI)  
+
+<br>
+<br>
+
+
+## Definition of ML?  
+
+`Arthur Samuel` - Field of study that gives computers the ability to learn without being explicitly learned.  
+(기계학습은 컴퓨터가 명시적으로 프로그래밍 되지 않아도 배울수 있도록 하는 과학)  
+
+1950년대에 체스게임을 직접 수만 번 반복 수행하도록 프로그램을 만들었다. 프로그램은 반복 횟수가 축적되면서 어떤 수로 이길 수 있고, 지는지 알게 되었다. 즉, 상황을 판단하게 된 것이다.  
+
+이 정의는 오래된 느낌이 있다  
+
+`Tom Mitchell` - well-posed learning problem : a computer program is said to learn from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with experience E.  
+(컴퓨터 프로그램이 T라는 작업을 수행하며 E라는 경험으로부터 배우고 이 품질은 P로 측정된다)  
+
+
+
+* 체스  
+
+|Type|Description|
+|----|---------------|
+|E|체스 프로그램에서 수만번 돌리는 경험|
+|T|체스를 한판 두는 작업|
+|P|새로운 상대를 만나 체스에서 이길 승률 : 성능|  
+
+* 바둑  
+
+|Type|Description|  
+|----|---------------|
+|E|바둑을 여러판 두면서 얻게되는 경험|
+|T|바둑을 두는 작업|
+|P|알파고가 다음판에서 이길 확률|  
+
+* Suppose your email program watches which emails you do or do not mark as spam, and based on that learns how to better filter spam. What is the task T in this setting?  
+
+|Type|Description|  
+|----|---------------|
+|E|Watching you label emails as spam or not spam|
+|T|Classifying emails as spam or not spam|
+|P|The number(or fraction) of emails correctly classified as spam/not spam|  
+
+사용자가 스팸 여부를 채크한 결과로 기계학습 프로그램이 경험을 얻음.  
+이메일의 스팸 여부를 체크하는 행위 자체가 T(task)  
+실제 이메일이 정확하게 스팸 필터링이 되는지가 모형의 성능(performance)  
+
+<br>
+<br>
+
+
+## Supervised Learning  
+
+기계학습에는 `지도학습`과 `비지도학습`이 있다. 지도학습을 먼저 살펴보자.  
+
+
+### 예시  
+
+1. Houssing price prediction  
+
+* feet당 주택 가격이 주어졌을 때, 특정 feet의 집은 얼마인지 모형을 적합시키는 행위. 연속된 값을 출력값으로 가지기 때문에 regression 문제이다.  
+=> 이렇게 학습된 모델을 가지고 답을 모르는 데이터를 넣으면 예측값을 출력해준다.  
+
+<br>
+
+2. Breast cancer(malignant, benign)  
+
+* 유방암 환자의 종양 크기를 보고 양성/악성 종양의 유무를 분류하는 Classification의 문제이다. 학습 결과값이 연속된 값이 아닌 이산값(비연속적인 값)이다.  
+
+<br>  
+
+3. 나이&종양크기별 양성/악성 종양 유무  
+
+* 새로운 값이 들어왔을 때 과연 이 값의 환자 종양은 악성인지 양성인지 유무를 모형을 가지고 분류하게 된다.  
+
+
+<br>
+<br>
+
+## Unsupervised Learning  
+
+비지도 학습은 알고리즘에게 데이터 집합의 예시에 대해 정답을 주고 있지 않는다.  
+
+
+예컨대, `클러스터링 알고리즘`은 많은 곳에서 사용되고 있다.  
+
+- 1. 구글 뉴스  
+
+말 그대로 수만 개의 기사들과 자동적으로 그 기사들을 묶어준다.  
+그래서 기사들이, 같은 토픽의 모든 기사들은 같이 묶여 표시된다.  
+
+<br>
+ 
+
+- 2. 유전학적 자료 이해  
+
+DNA 미세배열의 한 예시에서 서로 다른 사람들의 그룹이 있고, 각 사람에 대해 특정 유전자를 가지고 있는지 또는 그렇지 않은지를 측정한다.  
+엄밀히 말하면, 특정 유전자가 얼마나 발현되었는지를 측정한다. 이제 우리는 클러스터링 알고리즘을 돌려서 사람들을 서로 다른 분류 또는 타입으로 묶을 수 있다.  
+
+<br>
+
+
+- 3. 대규모 컴퓨터 클러스터를 구성  
+
+동료들은 데이터 센터, 그러니까 거대한 컴퓨터 클러스터를 보고 어떤 기기들끼리 주로 같이 일하는지 알아내려고 했다. 그 기기들을 같이 둔다면 data centers를 더 효율적이게 만들 수 있다.  
+
+<br>
+
+- 4. 소셜 네트워크 분석  
+
+어떤 친구에게 이메일을 가장 많이 보내는지 또는 페이스북 친구나 구글 플러스 써글에 대한 정보가 주어질 때 자동적으로 어떤 게 적절한 친구 그룹인지, 그리고 서로서로 다 아는 사람들의 그룹인지를 찾을 수 있을까 하는 것이다.  
+
+
+<br>
+
+- 5. 시장 세분화  
+
+**알고리즘이 데이터를 보고 세분화된 시장을 자동으로 발견**
+
+많은 회사는 고객 정보의 거대한 데이터베이스를 가지고 있다.  
+이 고객에 대한 데이터 집합을 보고 자동적으로 세분화된 시장을 찾아내고, 자동적으로 고객들을 세분화된 시장 안으로 묶어 넣어서 자동적으로 그리고 더욱 효율적으로 세분 시장에서 판매와 영업을 동시에 할 수 있다.  
+우리가 고객 정보는 가지고 있지만, 우리가 미리 세분화된 시장이 뭔지 알지 못하고, 데이터 집합에 있는 고객에 대해 누가 1번 세분 시장에 있는지, 누가 2번 세분시장에 있는지 등등을 미리 알고있지 않기 때문이다.  
+
+<br>
+
+
+- 6. 천문학 데이터 분석  
+
+클러스터링 알고리즘은 은하계의 생성에 관해 굉장히 흥미롭고 유용한 이론을 가져다준다.  
+
+
+<br>
+<br>
+
+
+- 7. 마이크들이 말하는 사람으로부터 서로 다른 거리에 있는 목소리의 녹음  
+
+말하는 두 사람의 목소리의 서로 다른 조합을 녹음하게 된다.  
+2사람이 각 마이크 앞에 선다. 1번 화자는 1번 마이크에서 좀 더 소리가 클 수도 있고, 2번 화자는 2번 마이크에서 좀 더 소리가 클 수 있다.  
+각 마이크는 두 목소리가 조합되어 중첩된 것을 녹음한다.  
+
+두 사람이 두 개의 언어로 1부터 10까지 센다.  
+이 두 마이크의 녹음을 가져다가 칵테일 파티 알고리즘이라 불리는 비지도 학습 알고리즘에게 주고 구조를 찾아보자.  
+
+알고리즘은 이 두 음성녹음을 들어보고 이것이 두 음성녹음이 더해져서, 또는 합쳐져서 우리가 가진 녹음이 되는 것 같다고 할 것이다.  
+나아가 칵테일 파티 알고리즘은 더해져서, 또는 합쳐져서 우리의 녹음을 이루는 두 개의 음성 소스를 분리해 낼 것이다.  
+
+<br>
+<br>
+
+## 마치면서...  
+
+비지도 학습 알고리즘을 보고 여러분은 이걸 구현하는 게 얼마나 복잡한지 물을 수 있다.  
+위와같은 응용 프로그램을 만드려면, 이런 오디오 처리를 해내려면 엄청나게 많은 코드를 쓰거나, 오디오를 처리해주는 C++, Java 라이브러리를 가져오거나 해야할듯 하다.  
+하지만, 알고보니 방금 들은 일을 하는 알고리즘은 한 줄의 코드로 가능하다.  
+이 한 줄의 코드를 만들기 위해 연구자들에게 긴 시간이 걸리긴 했지만, 적당한 프로그래밍 환경을 사용한다면 많은 학습 알고리즘들을 간단히 프로그래밍할 수 있다.  
+
+~~(수업에서는 **Octave**프로그램을 강조하고 있다.)~~  
+
+<br>
+<br>
+
+
+문제 하나만 더 풀고 도입부를 끝내보자  
+
+* of the following examples, which would you address using an unsupervised learning algorithm?(check all that apply)  
+
+1. Given email labeled as spam/not spam, learn a spam filter.  
+2. Given a set of news articles found on the web, group them into set of a articles about the same story.  
+3. Given a database of customer dat, automatically discover market segments and group customers into different market segments.  
+4. Given a dataset of patients diagnosed as either having diabetes or not, learn to classify new patients as having diabetes or not.  
+
+<br>
+
+
+1은 지도학습의 분류문제이다. 레이블링이 되어있는 이메일을 스팸과 아닌것으로 분류하는 모형인 것이다.  
+2는 웹상에 비슷한 기사들을 일련의 기사로 묶어서 보여주는 것이다. 비지도학습의 클러스터링 방법에 해당한다.  
+3은 고객 정보가 있는 데이터베이스가 주어졌고 자동적으로 시장 세분화를 고객에 맞춰서 하는 것이다. 비지도방법에 해당한다.  
+4는 당뇨가 있는 환자와 아닌환자의 진단정보가 주어졌고 이를 학습한 모형으로 새로운 사람이 당뇨인지 아닌지 분류하는 지도학습의 방법이다.  
+
