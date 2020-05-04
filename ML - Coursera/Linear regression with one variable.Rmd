@@ -1,0 +1,400 @@
+---
+title: "Machine Learning with Coursera"
+author: "Jae Kwan Koo"
+date: "2020년 5월 3일"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Linear Regression with One Variable  
+
+첫번째 알고리즘인 `선형 회귀`에 대해 배워보자.  
+
+
+## Model Representation  
+
+### 집세에 대한 예측 - 지도학습 알고리즘  
+
+```{r}
+
+```  
+
+
+다른 크기, 다른 가격 범위의 자료를 가지고 집을 파려고 하는 친구에게 보여준다.  
+친구의 집 사이즈가 1250square feet라고 했을때, 내가 친구에게 얼마에 팔 수 있는지 알려준다고 하면 어떻게 할 것인가?  
+
+**"모형에 맞추는 일"**  
+
+우리는 주어진 자료의 직선에 근거하여 친구에게 집을 이 가격에 팔 수 있다고 말 할 것이다.  
+
+<br>
+<br>
+
+```{r}
+
+```  
+
+이 강의에서 유용한 표기법을 잠시 익히고 가보자.  
+
+|Notation|Description|
+|:--:|-------|
+|m|training set의 갯수|
+|x|`input` variable|
+|y|`output` variable|  
+
+
+예컨대, 위의 데이터가 training set이라고 했을 때, $x^{(1)}$는 첫번째 훈련셋의 input variable값을 의미하고, $y^{(1)}$는 첫번째 훈련셋의 output variable값을 의미하게 된다. 총 training set의 row num이 47이라고 한다면 m은 47이 되겠다.  
+
+강의에서는 이 가설을 h라고 표현하고, 이 과정들을 **h maps from x's to y's**라고 표현하고 있다.  
+
+~~기계학습에서 가설이라는 용어가 약간 애매하지만 이 단어는 ML(machine learning)에서 사용되는 전문용어라고 강의에서는 말하고 있다.~~  
+
+지도알고리즘을 디자인할 때, 가설 h를 어떻게 표현할 것인가는 또 중요한 문제이다.  
+
+선형모형에서는 $h_\theta(x) = \theta_0+\theta_1$ 으로 표현할 수 있다.  
+(통계에서는 $\hat{y} = \hat{\beta_0}+ \hat{\beta_1}$으로 표현한다.)  
+
+통계에서는 단순선형회귀모형(simple linear regression model)  
+
+
+<br>
+
+|type|description|
+|----|--------|
+|Univariate(단변량,일변량)|종속변수가 한 개|
+|Multivariate(다변량)|종속변수가 여러 개|
+|Univariable(단변수)|독립변수가 하나|
+|multivariable(다변수, multiple)|독립변수가 여러 개|
+
+
+예) 회귀분석에서 독립변수가 3개이고 종속변수가 1개인 경우  
+$y_i =\beta_0+\beta_1x1+\beta2x2+\beta3x3+\epsilon_i$ i=1,...,n  
+
+독립변수 기준 : multivariable regression analysis  
+종속변수 기준 : univariate regression analysis  
+
+<br>
+
+
+```{r}
+
+```
+
+우리는 이 훈련자료를 이용해 알고리즘을 통한 모형을 만들고, 새로운 값인 집 사이즈를 이 모형에 넣어 가격을 예측하려는 것이다.  
+예측하려는 타겟변수가 연속형이면, 우리는 `learning problem a regression problem`이라고 부른다.  
+y가 이산형 값을 가질 때(주택인지 아파트인지), `classification problem`이라고 부른다.   
+
+<br>
+<br>
+
+## Cost function  
+
+cost function을 사용하면 주어진 데이터에 가장 가까운 일차함수 그래프를 알아 낼 수 있다.  
+
+```{r}
+
+```
+
+
+최소화문제를 고려하자.  
+**최솟값을 Θ0, Θ1이라고 적고, 이 값을 작게 만드는 것이 목표**  
+즉, h(x)와 y간의 차이를 작게 만들고 싶은 것이다.  
+
+가설의 결과값과 실제 집의 가격의 차이의 제곱을 최소화할 것이다. 그래서 실제 훈련집합에서 훈련집합에서 i=1부터 m까지의 차이의 제곱의 합계를 구하려고 하는 것이고, 이 값은 i번의 집의 입력 값에 대한 가설을 예측한 것이다.  
+
+
+단, 1/m(training set의 크기)을 앞에 곱하게 되면 평균제곱합을 최소화하게 되는 식을 쓴 것이고, 1/2을 곱해서 1/2m을 곱하는 것을 고려해보자. 1/2을 곱하는 이유는 좀 더 쉬워보이게 되고 어떤 값의 반을 가지는 함수에서 최소화되게 만드는 모수를 찾는 것이나 몇 배가 곱해진 함수를 최소화되게 만드는 모수를 찾는 것이나 똑같은 문제이다.  
+
+이 비용함수는 `오차함수 제곱`이라고도 불린다.  
+오차함수의 제곱이 가장 통상적으로 회귀문제에서 사용되는 방법인데, 위의 방법이 대부분의 선형회귀문제에서 합리적인 선택이라고 설명하고 있다.  
+
+$$
+J(\theta_0,\theta_1) = {1\over2m}\sum_{i=1}^m(\hat{y}_i-y_i)^2 = {1\over2m}\sum_{i=1}^m(h_\theta(x_i)-y_i)^2
+$$
+
+우리의 가설의 정확도를 측정하기 위해 cost function을 사용할 수 있다.  
+이 함수는 다른발로 `Squared error function` 또는 `Mean squared error`라고 불리는데, gradient descent의 계산 편의를 위해 1/2를 앞에 곱해주게 된다. 왜냐하면 제곱된 것을 미분하게 되면 2가 나오게 되는데 1/2과 상쇄가 되기 때문이다.  
+
+<br>
+<br>
+
+## Cost function - Intuition 1  
+
+```{r}
+
+```  
+
+training set이 (1, 1), (2, 2), (3, 3), 세가지 점으로 이루어져 있다고 가정하자.  
+위의 사진에서 아래 직선은 Θ1 = 0.5이다. 주의하자!   
+
+**여기서는 Θ0 = 0 으로 생각하고 기울기에 대한 고려만 하였다. 이후, 확장해 나갈 것이다.**  
+
+
+
+### Θ1 = 1  
+
+가설은 기울기가 1인 직선처럼 보여질 것  
+Θ1이 1과 같을 때, `j(Θ1)` (비용함수, cost function)값이 무엇인지를 알아보자.  
+오차 제곱의 훈련 집합이고, 이 식은 이 식, Θ1xi – yi와 같다.  
+훈련 예시가 (1,1), (2,2), (3,3)이기 때문에 비용함수는 0과 같다.  
+즉, 만약 Θ1이 1과 같다면, hΘ(xi) 값은 yi와 같다.  
+
+<br>
+
+cost function은 parameter Θ1의 함수와 같기 때문에, 비용함수를 그렸을 때, 수평축은 이제 Θ1이 된다.  
+
+### Θ1 = 1)  
+
+여기서 m = 3이다.  
+이 때가 자료와 잘 맞고, 실제로 완벽하게 일치되게 되는 가장 최선의 직선일 것이다.  
+
+$$
+{1\over2\times3} [(1-1)^2+(2-2)^2+(3-3)^2] = 0
+$$  
+
+### Θ1 = 0.5)  
+
+$$
+{1\over2\times3} [(0.5-1)^2+(1-2)^2+(1.5-3)^2] = 0.58333...
+$$
+
+### Θ1 = 0)  
+
+$$
+{1\over2\times3} [(0-1)^2+(0-2)^2+(0-3)^2] = 2.3333...
+$$  
+
+
+### 지도 알고리즘의 최선의 목표  
+
+**목적 함수 j(Θ1)값을 최소화 하는 것**  
+
+
+<br>  
+
+이제까지는 1개의 모수 Θ1만 가지고 간소화시켜서 이야기했지만, 아래부터는 Θ0도 함께 고려하여 확장시켜보자.  
+
+
+## Cost function - intuition 2  
+
+
+### 중간정리
+
+```{r}
+
+```  
+
+이제껏 우리가 하려는 모든 것을 다 담고있는 수식들이다.  
+
+
+### Contour plot  
+
+A contour plot is a graph that contains many contour lines. A contour line of a two variable function has a constant value at all points of the same line.  
+
+
+
+2개의 parameter Θ0과 Θ1을 사용하면, 그래프도 더 복잡해진다.  
+
+```{r}
+
+```  
+
+
+Θ0과 Θ1의 위치에 따라 비용함수 j(Θ0,Θ1)값은 달라질 것이다.  
+표면부터 점까지의 높이가 비용함수의 값을 나타낸다.  
+
+3D그림을 계속보면 머리가 아프니까 2차원 그래프로 이해해보자.  
+
+```{r}
+
+```
+
+3D그림에서 중심부로 갈수록 비용함수의 값은 최소값으로 가는 모습을 보인다.  
+2차원 등고선 그림에서도 마찬가지다. 3D형태가 도면으로 그려진다고 생각하면, 각각의 타원들은 같은 높이가 될 것이다.  
+
+위의 직선은 데이터와 비슷한 형태를 보이지 않기 때문에 contour plot의 중심부와는 좀 떨어져 있는 모습을 보일 것이다.  
+
+```{r}
+
+```  
+
+위의 그래프는 cost function을 최대한 최소화시킨다.  
+결론적으로 그 결과는 각각 Θ0 = 0.12, Θ1 = 250쯤이다.  
+오른편의 그림에서 값들을 그려보면 가장 원처럼 보이는 곳 안에 점이 위치하게 된다.  
+
+
+<br>
+
+고차원 형태와 더 많은 parameter들을 사용하면, 직접 그래프를 그릴 수는 없어 시각화하기가 어려워진다.  
+결국 우리가 해야할 것은 Θ0, Θ1 그리고 함수의 최소값을 찾는 것이다.  
+이제 자동적으로 Θ0, Θ1, 그리고 비용함수 j의 최소값을 찾아주는 알고리즘에 대해 알아보자.  
+
+
+<br>
+<br>
+
+
+## Gradient descent  
+
+Gradient descent(기울기 하강)은 자주 사용되는 알고리즘으로 선형회귀에서만 사용되는 알고리즘이 아니고, ML의 모든 곳에서 실제로 사용되고 있다.  
+
+### 그래프에 대한 개념  
+
+1. 먼저 Θ0과 Θ1의 초기값들을 추측  
+  - 어떤 값인지 사실 중요하지는 않지만, 일반적으로 사용되는 값은 Θ0은 0으로 Θ1도 0으로 설정. 그들을 모두 0으로 초기화 하는 것이다. 기울기 하강 알고리즘에서 Θ0과 Θ1을 조금씩 바꾸면서 j(Θ0, Θ1)을 조금이라도 줄이기 위해서다.  
+  
+```{r}
+
+```  
+
+
+초록 잔디가 깔린 공원에 두개의 언덕이 있고 물리적으로 언덕의 꼭대기 위에 서있다고 가정하자.  
+작은 언덕위에서 만약 우리가 작은 걸음걸이로 언덕을 최대한 빠르게 내려가고자 할 때, 어떤 길이 가장 빠른 길일까?  
+
+
+```{r}
+
+```
+
+
+그리고 아까와는 다른 지점에 서있다고 했을 때, 언덕을 내려가는 가장 빠른 길을 찾습니다. 최종적으로 지역적으로 최소의 거리를 선택하였다.  
+
+위의 그래프적인 예를 보자면, 다른 지역에서 출발하여 최소의 거리로 언덕을 내려간다고 할 때, 도달하는 위치는 다르다는 것을 알 수 있다.  
+
+
+### 수학적 개념  
+
+```{r}
+
+```  
+
+The way we do this is by taking the derivative (the tangential line to a function) of our cost function. The slope of the tangent is the derivative at that point and it will give us a direction to move towards. We make steps down the cost function in the direction with the steepest descent. The size of each step is determined by the parameter α, which is called the learning rate.  
+
+
+* 수식  
+`:=` : 할당  
+$\alpha$ : learning rate  
+
+<br>
+
+alpha : 언덕을 내려가기 위해 얼만큼 큰 걸음을 내딛어야 하는가?  
+
+
+새로운 temp로 업데이트하기 위해서는 $\theta_0$, $\theta_1$이 동시에 들어가야 한다. 한 값을 업데이트하고 다른 값을 업데이트하기 위해 먼저 업데이트 된 값을 넣는 행위는 잘못된 방법이다.  
+
+여기서 `Simultaneous update`라고 부르는 이유이다.  
+
+<br>
+<br>
+
+## Gradient descent intuition  
+
+미분계수가 하는 일은 그 점의 탄젠트값을 구하는 것이다.  
+함수와 맞닿는 그 점의 기울기를 보면된다. 이 기울기 값(함수의 탄젠트 값)이 미분계수이다.  
+
+**cost function과 하나의 parameter $\theta_1$만 있음을 고려하자.**  
+
+```{r}
+
+```
+
+위의 그래프에서는 기울기가 양수이다.  
+따라서 $\theta_1 := \theta_1-\alpha\times positive num$ 의 형태가 된다.  
+그래서 $\theta_1$값은 양수를 빼주다보니 점점 작아지게 되고 결국 cost function의 가장 작은 지점으로 이동할 것이다.  
+
+기울기가 음수인 경우에 대해서도 마찬가지이다.  
+기울기가 음수라는 것은 양의 이차함수 그래프에서 중심을 기준으로 왼편에 위치함은 너무나도 당연하다.  
+$\theta_1 := \theta_1-\alpha\times negative num$가 되어 점점 $\theta_1$은 커지는 방향으로 갈 것이다. 그래서 결국 cost function이 가장 작은 지점으로 이동하게 된다.  
+
+
+
+### alpha?  
+
+```{r}
+
+```
+
+alpha가 너무작으면 수렴속도가 느리다.  
+너무 크면 수렴하지 않고 심지어는 발산하는 경우도 있다.  
+
+
+수렴에 실패하거나 최솟값을 얻는데 너무 많은 시간이 걸리는 것은 이 learning rate를 잘 못 지정했다는 것을 암시한다.  
+(Failure to converge or too much time to obtain the minimum value imply that our step size is wrong.)  
+
+
+<br> 
+
+미분계수가 0으로 갈수록 기울기가 작아지므로 $\theta_1$의 값은 gradient descent를 진행함에 따라 자연스럽게 더 조금씩 움직일 것이다.  
+
+요약하자면, 하강 기울기는 지역 최소값에 가까워질수록, 더 작은 거리를 이동하게 된다.  
+왜냐하면, 최소값에 가까워진다는 것은 지역 최소값의 정의는, 미분계수가 0이 되는 것이기 때문이다.  
+지역 최소값에 가까워질수록, 미분계수값은 작아지게 되고, 하강 기울기는 더 조금씩 이동하게 된다.  
+그렇기 때문에 α값을 감소할 필요가 없다.  
+
+
+### local optima  
+
+```{r}
+
+```  
+
+이미 어느 지역에서 최솟값이라면 미분계수는 0이 된다.  
+초기값은 더 이상 변하지 않고 $\theta_1=\theta1$이라는 뜻이다.  
+
+만약 parameter가 이미 local minimum이라면, gradient descent는 parameter에 아무런 영향도 끼치지 않고 local minumum은 유지가 된다.  
+
+
+<br>
+<br>
+
+## Gradient descent for linear regression  
+
+```{r}
+
+```  
+
+선형회귀식에 기울기 하강을 적용시켜보자.  
+모수 각각의 편미분을 하여 구해본다.  
+
+```{r}
+
+```  
+
+
+주의할 점은 둘다 구해서 동시에 적용시켜야 한다는 것이다.  
+
+### Convex  
+
+아까 위에서 봤듯이, 초기값이 어디서 시작하느냐에 따라 local minumum이 다르다는 것을 확인할 수 있었다.  
+하지만, 선형회귀에서는 걱정할 필요가 없는 것이 항상 `볼록함수(convex)`이기 때문에 `global minimum(전역 최솟값)`만 가진다. 따라서, gradient descent는 항상 이 값을 향하게 된다.  
+
+```{r}
+
+```  
+
+### Process  
+
+```{r}
+
+```  
+
+기울기가 하강했기 때문에 일차함수도 매번 변하게 된다.  
+비용이 내려가면서 기울기 하강이 변하게 되고 궤도가 바뀐다.  
+결국 이 global minimum이 가설과 일치할 때, 자료와 잘 일치하게 되는 것이다.  
+
+<br>
+
+**"Batch Gradient Descent"**  
+
+Batch : Each step of gradient descent uses all the training examples.  
+
+배치에 대한 쉬운 이해는 아래 링크를 참조하면 된다.  
+
+[Difference between Batch Gradient Descent and Stochastic Gradient Descent](https://towardsdatascience.com/difference-between-batch-gradient-descent-and-stochastic-gradient-descent-1187f1291aa1)  
+
+
+
