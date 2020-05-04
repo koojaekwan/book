@@ -1,13 +1,35 @@
 ---
 title: "Machine Learning with Coursera"
 author: "Jae Kwan Koo"
-date: "2020년 5월 3일"
-output: html_document
----
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  word_document: default
+  github_document:
+    toc: yes
+    toc_depth: 4
+---  
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.height = 5, cache=F, dpi = 300, dev = "png")
+```  
+
+<style type="text/css">
+/* Whole document: */
+body{
+  font-family: Helvetica;
+  font-size: 14pt;
+}
+/* Headers */
+h1,h2,h3,h4,h5,h6{
+  font-size: 24pt;
+}
+</style>  
 
 
 # Linear Regression with One Variable  
@@ -20,7 +42,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ### 집세에 대한 예측 - 지도학습 알고리즘  
 
 ```{r}
-
+library(knitr)
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image1.png")
 ```  
 
 
@@ -35,7 +58,7 @@ knitr::opts_chunk$set(echo = TRUE)
 <br>
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image2.png")
 ```  
 
 이 강의에서 유용한 표기법을 잠시 익히고 가보자.  
@@ -81,7 +104,7 @@ $y_i =\beta_0+\beta_1x1+\beta2x2+\beta3x3+\epsilon_i$ i=1,...,n
 
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image3.png")
 ```
 
 우리는 이 훈련자료를 이용해 알고리즘을 통한 모형을 만들고, 새로운 값인 집 사이즈를 이 모형에 넣어 가격을 예측하려는 것이다.  
@@ -96,7 +119,7 @@ y가 이산형 값을 가질 때(주택인지 아파트인지), `classification 
 cost function을 사용하면 주어진 데이터에 가장 가까운 일차함수 그래프를 알아 낼 수 있다.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image4.png")
 ```
 
 
@@ -125,7 +148,7 @@ $$
 ## Cost function - Intuition 1  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image5.png")
 ```  
 
 training set이 (1, 1), (2, 2), (3, 3), 세가지 점으로 이루어져 있다고 가정하자.  
@@ -185,7 +208,7 @@ $$
 ### 중간정리
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image6.png")
 ```  
 
 이제껏 우리가 하려는 모든 것을 다 담고있는 수식들이다.  
@@ -200,7 +223,7 @@ A contour plot is a graph that contains many contour lines. A contour line of a 
 2개의 parameter Θ0과 Θ1을 사용하면, 그래프도 더 복잡해진다.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image7.png")
 ```  
 
 
@@ -210,7 +233,7 @@ A contour plot is a graph that contains many contour lines. A contour line of a 
 3D그림을 계속보면 머리가 아프니까 2차원 그래프로 이해해보자.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image8.png")
 ```
 
 3D그림에서 중심부로 갈수록 비용함수의 값은 최소값으로 가는 모습을 보인다.  
@@ -219,7 +242,7 @@ A contour plot is a graph that contains many contour lines. A contour line of a 
 위의 직선은 데이터와 비슷한 형태를 보이지 않기 때문에 contour plot의 중심부와는 좀 떨어져 있는 모습을 보일 것이다.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image9.png")
 ```  
 
 위의 그래프는 cost function을 최대한 최소화시킨다.  
@@ -248,7 +271,7 @@ Gradient descent(기울기 하강)은 자주 사용되는 알고리즘으로 선
   - 어떤 값인지 사실 중요하지는 않지만, 일반적으로 사용되는 값은 Θ0은 0으로 Θ1도 0으로 설정. 그들을 모두 0으로 초기화 하는 것이다. 기울기 하강 알고리즘에서 Θ0과 Θ1을 조금씩 바꾸면서 j(Θ0, Θ1)을 조금이라도 줄이기 위해서다.  
   
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image10.png")
 ```  
 
 
@@ -257,7 +280,7 @@ Gradient descent(기울기 하강)은 자주 사용되는 알고리즘으로 선
 
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image11.png")
 ```
 
 
@@ -269,7 +292,7 @@ Gradient descent(기울기 하강)은 자주 사용되는 알고리즘으로 선
 ### 수학적 개념  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image12.png")
 ```  
 
 The way we do this is by taking the derivative (the tangential line to a function) of our cost function. The slope of the tangent is the derivative at that point and it will give us a direction to move towards. We make steps down the cost function in the direction with the steepest descent. The size of each step is determined by the parameter α, which is called the learning rate.  
@@ -299,7 +322,7 @@ alpha : 언덕을 내려가기 위해 얼만큼 큰 걸음을 내딛어야 하�
 **cost function과 하나의 parameter $\theta_1$만 있음을 고려하자.**  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image13.png")
 ```
 
 위의 그래프에서는 기울기가 양수이다.  
@@ -315,7 +338,7 @@ $\theta_1 := \theta_1-\alpha\times negative num$가 되어 점점 $\theta_1$은 
 ### alpha?  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image14.png")
 ```
 
 alpha가 너무작으면 수렴속도가 느리다.  
@@ -339,7 +362,7 @@ alpha가 너무작으면 수렴속도가 느리다.
 ### local optima  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image15.png")
 ```  
 
 이미 어느 지역에서 최솟값이라면 미분계수는 0이 된다.  
@@ -354,14 +377,14 @@ alpha가 너무작으면 수렴속도가 느리다.
 ## Gradient descent for linear regression  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image16.png")
 ```  
 
 선형회귀식에 기울기 하강을 적용시켜보자.  
 모수 각각의 편미분을 하여 구해본다.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image17.png")
 ```  
 
 
@@ -373,13 +396,13 @@ alpha가 너무작으면 수렴속도가 느리다.
 하지만, 선형회귀에서는 걱정할 필요가 없는 것이 항상 `볼록함수(convex)`이기 때문에 `global minimum(전역 최솟값)`만 가진다. 따라서, gradient descent는 항상 이 값을 향하게 된다.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image18.png")
 ```  
 
 ### Process  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image19.png")
 ```  
 
 기울기가 하강했기 때문에 일차함수도 매번 변하게 된다.  
