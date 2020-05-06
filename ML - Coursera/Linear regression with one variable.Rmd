@@ -34,18 +34,24 @@ h1,h2,h3,h4,h5,h6{
 
 # Linear Regression with One Variable  
 
-첫번째 알고리즘인 `선형 회귀`에 대해 배워보자.  
+첫번째 알고리즘인 **선형 회귀**에 대해 배워보자.  
+
+<br>
+<br>
 
 
 ## Model Representation  
 
 ### 집세에 대한 예측 - 지도학습 알고리즘  
 
+<br>
+
 ```{r}
 library(knitr)
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image1.png")
 ```  
 
+<br>
 
 다른 크기, 다른 가격 범위의 자료를 가지고 집을 파려고 하는 친구에게 보여준다.  
 친구의 집 사이즈가 1250square feet라고 했을때, 내가 친구에게 얼마에 팔 수 있는지 알려준다고 하면 어떻게 할 것인가?  
@@ -60,6 +66,7 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image2.png")
 ```  
+<br>
 
 이 강의에서 유용한 표기법을 잠시 익히고 가보자.  
 
@@ -120,7 +127,8 @@ cost function을 사용하면 주어진 데이터에 가장 가까운 일차함�
 
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image4.png")
-```
+```  
+<br>
 
 
 최소화문제를 고려하자.  
@@ -135,9 +143,13 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 이 비용함수는 `오차함수 제곱`이라고도 불린다.  
 오차함수의 제곱이 가장 통상적으로 회귀문제에서 사용되는 방법인데, 위의 방법이 대부분의 선형회귀문제에서 합리적인 선택이라고 설명하고 있다.  
 
+<br>
+
 $$
 J(\theta_0,\theta_1) = {1\over2m}\sum_{i=1}^m(\hat{y}_i-y_i)^2 = {1\over2m}\sum_{i=1}^m(h_\theta(x_i)-y_i)^2
-$$
+$$  
+
+<br>
 
 우리의 가설의 정확도를 측정하기 위해 cost function을 사용할 수 있다.  
 이 함수는 다른발로 `Squared error function` 또는 `Mean squared error`라고 불리는데, gradient descent의 계산 편의를 위해 1/2를 앞에 곱해주게 된다. 왜냐하면 제곱된 것을 미분하게 되면 2가 나오게 되는데 1/2과 상쇄가 되기 때문이다.  
@@ -170,26 +182,29 @@ training set이 (1, 1), (2, 2), (3, 3), 세가지 점으로 이루어져 있다�
 
 cost function은 parameter Θ1의 함수와 같기 때문에, 비용함수를 그렸을 때, 수평축은 이제 Θ1이 된다.  
 
-### Θ1 = 1)  
 
-여기서 m = 3이다.  
+우리는 계속 m = 3인 경우를 예로 다루고 있다.  
 이 때가 자료와 잘 맞고, 실제로 완벽하게 일치되게 되는 가장 최선의 직선일 것이다.  
 
 $$
 {1\over2\times3} [(1-1)^2+(2-2)^2+(3-3)^2] = 0
 $$  
 
-### Θ1 = 0.5)  
+### Θ1 = 0.5  
 
 $$
 {1\over2\times3} [(0.5-1)^2+(1-2)^2+(1.5-3)^2] = 0.58333...
 $$
 
-### Θ1 = 0)  
+### Θ1 = 0  
 
 $$
 {1\over2\times3} [(0-1)^2+(0-2)^2+(0-3)^2] = 2.3333...
 $$  
+
+<br>
+<br>
+
 
 
 ### 지도 알고리즘의 최선의 목표  
@@ -200,6 +215,9 @@ $$
 <br>  
 
 이제까지는 1개의 모수 Θ1만 가지고 간소화시켜서 이야기했지만, 아래부터는 Θ0도 함께 고려하여 확장시켜보자.  
+<br>
+<br>
+
 
 
 ## Cost function - intuition 2  
@@ -213,6 +231,10 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 
 이제껏 우리가 하려는 모든 것을 다 담고있는 수식들이다.  
 
+<br>
+<br>
+
+
 
 ### Contour plot  
 
@@ -221,16 +243,19 @@ A contour plot is a graph that contains many contour lines. A contour line of a 
 
 
 2개의 parameter Θ0과 Θ1을 사용하면, 그래프도 더 복잡해진다.  
+<br>
 
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image7.png")
 ```  
+<br>
 
 
 Θ0과 Θ1의 위치에 따라 비용함수 j(Θ0,Θ1)값은 달라질 것이다.  
 표면부터 점까지의 높이가 비용함수의 값을 나타낸다.  
 
 3D그림을 계속보면 머리가 아프니까 2차원 그래프로 이해해보자.  
+<br>
 
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image8.png")
@@ -240,6 +265,7 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 2차원 등고선 그림에서도 마찬가지다. 3D형태가 도면으로 그려진다고 생각하면, 각각의 타원들은 같은 높이가 될 것이다.  
 
 위의 직선은 데이터와 비슷한 형태를 보이지 않기 때문에 contour plot의 중심부와는 좀 떨어져 있는 모습을 보일 것이다.  
+<br>
 
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image9.png")
@@ -281,12 +307,14 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression/image11.png")
-```
+```  
+<br>
 
 
 그리고 아까와는 다른 지점에 서있다고 했을 때, 언덕을 내려가는 가장 빠른 길을 찾습니다. 최종적으로 지역적으로 최소의 거리를 선택하였다.  
 
 위의 그래프적인 예를 보자면, 다른 지역에서 출발하여 최소의 거리로 언덕을 내려간다고 할 때, 도달하는 위치는 다르다는 것을 알 수 있다.  
+<br>
 
 
 ### 수학적 개념  
@@ -332,6 +360,7 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 기울기가 음수인 경우에 대해서도 마찬가지이다.  
 기울기가 음수라는 것은 양의 이차함수 그래프에서 중심을 기준으로 왼편에 위치함은 너무나도 당연하다.  
 $\theta_1 := \theta_1-\alpha\times negative num$가 되어 점점 $\theta_1$은 커지는 방향으로 갈 것이다. 그래서 결국 cost function이 가장 작은 지점으로 이동하게 된다.  
+<br>
 
 
 
@@ -357,6 +386,7 @@ alpha가 너무작으면 수렴속도가 느리다.
 왜냐하면, 최소값에 가까워진다는 것은 지역 최소값의 정의는, 미분계수가 0이 되는 것이기 때문이다.  
 지역 최소값에 가까워질수록, 미분계수값은 작아지게 되고, 하강 기울기는 더 조금씩 이동하게 된다.  
 그렇기 때문에 α값을 감소할 필요가 없다.  
+<br>
 
 
 ### local optima  
@@ -389,6 +419,7 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 
 
 주의할 점은 둘다 구해서 동시에 적용시켜야 한다는 것이다.  
+<br>
 
 ### Convex  
 
@@ -415,7 +446,7 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 
 Batch : Each step of gradient descent uses all the training examples.  
 
-배치에 대한 쉬운 이해는 아래 링크를 참조하면 된다.  
+배치에 대한 자세한 내용은 아래 링크를 참조하면 된다.  
 
 [Difference between Batch Gradient Descent and Stochastic Gradient Descent](https://towardsdatascience.com/difference-between-batch-gradient-descent-and-stochastic-gradient-descent-1187f1291aa1)  
 
