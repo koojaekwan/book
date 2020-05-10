@@ -1,12 +1,36 @@
 ---
-title: "Untitled"
+title: "Machine Learning with Coursera"
 author: "Jae Kwan Koo"
-output: html_document
----
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  word_document: default
+  github_document:
+    toc: yes
+    toc_depth: 4
+---  
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.height = 5, cache=F, dpi = 300, dev = "png")
+```  
+
+<style type="text/css">
+/* Whole document: */
+body{
+  font-family: Helvetica;
+  font-size: 14pt;
+}
+/* Headers */
+h1,h2,h3,h4,h5,h6{
+  font-size: 24pt;
+}
+</style>  
+
 
 
 # Linear Regression with multiple variables  
@@ -32,7 +56,8 @@ Linear regression with multiple variables is also known as **"multivariate linea
 
 
 ```{r}
-
+library(knitr)
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image1.png")
 ```  
 
 <br>
@@ -46,7 +71,7 @@ Linear regression with multiple variables is also known as **"multivariate linea
 <br>  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image2.png")
 ```  
 
 <br>
@@ -90,7 +115,7 @@ $$
 ## Gradient descent for multiple variables  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image3.png")
 ```  
 
 theta들을 vector로 표현해보자  
@@ -99,7 +124,7 @@ theta들을 vector로 표현해보자
 
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image4.png")
 ```  
 
 
@@ -127,7 +152,7 @@ The goal is to get all input variables into roughly one of these ranges
 <br>
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image6.png")
 ```  
 
 <br>
@@ -147,6 +172,11 @@ x1의 범위가 x2보다 크다면, cost function J(θ)의 모양은 굉장히 �
 만약, 이 cost function에 gradient descent를 적용한다면, gradient는 오랜 시간 동안 앞 뒤로 진동하며, 엄청난 시간이 지나고 나서야 마침내 최소값에 도달할 것이다.  
 
 등고선이 극단적인 경우를 생각해보면, gradient descent는 훨씬 더 많은 시간을 소요하며, 구불구불하게 가다가, 오랜 시간이 지나서야 최소값을 찾을 수 있을 것이다.  
+
+```{r}
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image5.png")
+```
+
 <br>
 
 
@@ -207,7 +237,7 @@ mean normalizition - 값에 평균을 빼고 범위로 나눈다. 거의 -0.5와
 ## Gradient descent in practice 2 : Learning rate  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image7.png")
 ```  
 
 <br>
@@ -221,7 +251,7 @@ mean normalizition - 값에 평균을 빼고 범위로 나눈다. 거의 -0.5와
 
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image8.png")
 ```
 
 잘 작동하는 gradient descent는 반복할 때마다 cost function이 매번 감소해야 한다. 그리고 이후 평평한 것처럼 보이는 지점 이후에는 수렴한 것이다. cost function이 더 이상 줄어들지 않기 때문이다.  
@@ -232,7 +262,7 @@ gradient descent가 수렴하는데 필요한 반복횟수는 경우에 따라 �
 cost function의 감소량이 어떤 작은 값보다 작아졌을 때, 수렴했다라고 판단한다.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image9.png")
 ```  
 
 cost function이 증가하는 경우는 더 작은 learning rate를 사용해야 한다는 것을 알 수 있다.  
@@ -269,7 +299,7 @@ x :frontage x depth
 <br>
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image10.png")
 ```  
 
 <br>
@@ -301,7 +331,7 @@ normal equation은 theta를 분석적으로 구하는 방법이다. 그래서 �
 각 theta에 대해 모두 각각 편미분하여 0이되게 하는 식을 풀면 되지만, 행렬의 형태로 해결하는 것이 더 수월하다.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image11.png")
 ```  
 
 <br>
@@ -309,7 +339,7 @@ normal equation은 theta를 분석적으로 구하는 방법이다. 그래서 �
 ### comparison of gradient descent and the normal equation  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image12.png")
 ```  
 
 
@@ -326,7 +356,7 @@ The generalized inverse (or pseudo inverse) 는 R에서 pinv()함수로 계산�
 너무 많은 feature들이 있으면 몇몇 feature들을 지우거나 regularization을 사용한다. regularization부분은 나중에 알아보도록 하자.  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image13.png")
 ```  
 
 <br>
@@ -335,22 +365,22 @@ The generalized inverse (or pseudo inverse) 는 R에서 pinv()함수로 계산�
 ## Test question  
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image14.png")
 ```
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image15.png")
 ```
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image16.png")
 ```
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image17.png")
 ```
 
 ```{r}
-
+include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image18.png")
 ```
 
