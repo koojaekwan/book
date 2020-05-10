@@ -1,0 +1,356 @@
+---
+title: "Untitled"
+author: "Jae Kwan Koo"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Linear Regression with multiple variables  
+
+<br>
+<br>
+
+## Multiple features  
+
+이전까지의 예)  
+집의 가격을 결정하는 feature or variable - 집의 크기  
+
+'침실의 개수', '집의 나이'도 알고 있다면 가격을 결정하는 더 많은 요소를 갖고 있는 것이 된다.  
+
+
+<br>
+<br>
+
+### 다중선형회귀에서의 notation  
+
+Linear regression with multiple variables is also known as **"multivariate linear regression"**.  
+
+
+
+```{r}
+
+```  
+
+<br>
+
+|notation|description|
+|:--:|-------------|
+|n|feature들의 수|
+|$x^{(i)}$|training set에서의 i번째 관측치들|
+|$x^{(i)}_j$|training set에서의 i번째 관측치들에서 j번째 feature|  
+
+<br>  
+
+```{r}
+
+```  
+
+<br>
+
+이제 가설은 이전과 달리 features(variables)갯수에 따라 더 늘어난 모습을 보인다.  
+
+notation의 편의를 위해, `x_0 =1`이라고 가정하자.  
+이는 통계에서의 $\beta_0X_0$에서 $X_0=1$인 것과 같은 이치이다.  
+
+벡터의 내적에 의해 벡터표현을 사용하면 더 깔끔하다.  
+
+$$
+h_\theta(x) = \theta_0+\theta_1x_1+\theta_2x_2+...+\theta_nx_n
+$$  
+
+$$
+h_\theta(x) = [\theta_0,...,\theta_n]^T[X_0,...,X_n]=\theta^TX
+$$
+
+<br>
+<br>
+
+
+
+#### 통계에서의 다중선형회귀  
+
+$$
+Y = X\beta
+$$  
+
+$$
+y_i = \beta_0+\beta_1X_{i,1}+\beta_2X_{i,2}+...+\beta_{p-1}X_{i,p-1}, i=1,...,n
+$$  
+
+관측치(i)가 1부터 n까지 존재한다.  
+전체 beta갯수는 p개이다. 즉, nxp matrix  
+
+<br>
+<br>
+
+## Gradient descent for multiple variables  
+
+```{r}
+
+```  
+
+theta들을 vector로 표현해보자  
+각 theta에 대해 Gradient Descent를 진행해야 한다.  
+
+
+
+```{r}
+
+```  
+
+
+이전의 n=1, 그러니까 feature(variable)이 한 개만 있을 때는 theta0, 1에 관한 경사 하강법은 왼쪽과 같이 진행하였다.  
+
+일반화를 시켜보면 오른편처럼 적어줄 수 있을 것이다.  
+사실 왼편도 생각해보면 똑같다. theta0업데이트 하는 식에 $x_0^{(i)}$를 적어주면 다를게 없다. 물론 여기서 $x_0^{(i)}$는 1이라고 가정했다.  
+
+<br>
+<br>
+
+## Gradient descent in practice 1 : Feature Scaling  
+
+We can speed up gradient descent by having each of our input values in roughly the same range.  
+This is because θ will descend quickly on small ranges and slowly on large ranges, and so will oscillate inefficiently down to the optimum when the variables are very uneven.  
+
+The way to prevent this is to modify the ranges of our input variables so that they are all roughly the same.  
+
+이상적으로 [-1, +1] 또는 [-0.5, +0.5]  
+
+These aren't exact requirements; we are only trying to speed things up.  
+The goal is to get all input variables into roughly one of these ranges  
+
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+두 개의 feature가 있다고 해보자.  
+
+|Feature|range|
+|:---:|:----------:|
+|x1(집 크기)|[0,2000]|
+|x2(침실 수)|[0, 5]|  
+
+
+cost function J(θ)를 그래프로 그린다면 J(θ)는 파라미터 θ_0, θ_1, θ_2의 함수.  
+θ_0는 고려하지 않고 θ1과 θ2의 함수들만 보도록 하자.  
+x1의 범위가 x2보다 크다면, cost function J(θ)의 모양은 굉장히 뾰족한 타원모양이 나올 수 있다.  
+
+만약, 이 cost function에 gradient descent를 적용한다면, gradient는 오랜 시간 동안 앞 뒤로 진동하며, 엄청난 시간이 지나고 나서야 마침내 최소값에 도달할 것이다.  
+
+등고선이 극단적인 경우를 생각해보면, gradient descent는 훨씬 더 많은 시간을 소요하며, 구불구불하게 가다가, 오랜 시간이 지나서야 최소값을 찾을 수 있을 것이다.  
+<br>
+
+
+이 때, 유용한 방법이 **feature scale**하는 것  
+
+feature x1 : 집 크기를 2000으로 나눈 값(range : 2000(max)-0(min))  
+x_2 : 침실의 수를 5로 나눈 값(range : 5(max)-0(min))  
+
+cost function의 모양은 훨씬 덜 뾰족한 원에 가까운 타원모양이 되어 이러한 cost function에 gradient descent를 하면은 더 빠르게 수렴하고, 똑바른 방향으로 최소값을 찾는 것을 볼 수 있다. ~~(난해한 경로로 복잡한 궤도를 그리며 구불구불하게 가지 않는다.)~~  
+
+**핵심은 feature를 조절하여, 적절한 범위가 되도록 하는 것**  
+
+
+보통 feature scaling을 할 때, 모든 feature가 대략 -1에서 +1사이의 범위가 있으면 괜찮지만 -1과 +1은 중요하지 않다.  
+
+### case
+
+[-1, +1]과 근사한 경우 괜찮다.  
+
+ex)  
+어떤 feature 범위 : [0, 3]  
+어떤 feature 범위 : [-2, 0.5]  
+
+
+
+[-1, +1]과 근사하지 않은 경우 좋은 feature가 아니다.  
+
+ex)  
+[-100, +100]  
+[-0.0001, +0.0001] - 너무 작은 값을 가질 때  
+
+이러한 경우, feature를 조절해야한다.  
+사람마다 이러한 기준은 다르다. 예컨대 [-3, +3], [-1/3, +1/3] 등 보통 0근처의 범위면 상관없지만, 기준이 [-0.0001, +0.0001]처럼 너무 작다면 문제가 된다.  
+
+
+## Mean normalization  
+
+$$
+X = {x_i-mean(x)\over max(x)-min(x)}
+$$  
+
+평균을 빼고 범위로 나눠준다.  
+
+아마이 것은 근사적으로 [-0.5, +0.5]의 값을 가질 것이다.  
+feature scaling은 너무 정확할 필요는 없는게 gradient descent가 훨씬 더 빨라지면 그만이다.  
+
+<br>
+<br>
+
+정리하자면, `feature scaling`과 `mean normalization`이 feature들의 범위를 거의 같게 맞춰줄 수 있는 방법 중 하나이다.  
+
+feature scaling - 값을 범위로 나누게 된다. 거의 -1과 1사이의 값을 가지게 된다.  
+mean normalizition - 값에 평균을 빼고 범위로 나눈다. 거의 -0.5와 0.5사이의 값을 가지게 된다.  
+
+<br>
+<br>
+
+## Gradient descent in practice 2 : Learning rate  
+
+```{r}
+
+```  
+
+<br>
+
+이번에 하고자 하는 것은 **debugging**이다.  
+
+* debugging : gradient descent가 잘 돌아가게 하기 위한 방법  
+* how to choose alpha? - 어떤 값으로 시작할지에 대한 것  
+
+<br>  
+
+
+```{r}
+
+```
+
+잘 작동하는 gradient descent는 반복할 때마다 cost function이 매번 감소해야 한다. 그리고 이후 평평한 것처럼 보이는 지점 이후에는 수렴한 것이다. cost function이 더 이상 줄어들지 않기 때문이다.  
+
+gradient descent가 수렴하는데 필요한 반복횟수는 경우에 따라 다르다.  
+사전에 알기 힘들며, 반복 횟수 대 cost function의 그래프를 통해 수렴여부를 확인한다. (물론 자동으로 검사하는 automatic convergence test도 있다.)  
+
+cost function의 감소량이 어떤 작은 값보다 작아졌을 때, 수렴했다라고 판단한다.  
+
+```{r}
+
+```  
+
+cost function이 증가하는 경우는 더 작은 learning rate를 사용해야 한다는 것을 알 수 있다.  
+
+내려가다 올라가는 반복하는 경우에도 작은 alpha를 사용하자.  
+물론 너무 작은 alpha로 인해 너무 천천히 수렴하게 하는 일도 피하는게 좋다.  
+
+alpha는 경험적으로 조금씩 변화시켜가며 알맞은 값을 찾아보자.  
+
+<br>
+<br>
+
+## Features and polynomial regression  
+
+
+집의 frontage와 depth이라는 features가 있다고 하자.  
+
+frontage : 너비 즉 집 폭의 길이  
+depth : 집의 세로길이  
+
+$$
+h_\theta{(x)} = \theta_0+\theta_1 X_1+\theta_2X_2
+$$  
+
+
+이제는 직접 새로운 feature(집의 크기)를 만들어보자.  
+
+$$
+h_\theta{(x)} = \theta_0+\theta_1X
+$$  
+
+x :frontage x depth  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+이 데이터를 설명할 수 있는 모형들은 여러가지가 있을 것이다.  
+polynomial의 degree에 따라 quadratic, cubic, quartic, quintic... 등 이름이 불린다.  
+
+2차식(quadratic) : 나중에 감소하는 형식의 그래프이기 때문에 적절하지 않다.  
+3차식(cubic) : 감소하지 않기 때문에 2차식보다는 적절하다.  
+
+감소한다면 집의 크기가 증가할 때, 가격이 떨어지는 것으로 예측되기 때문에 2차식은 적절하지 않다는 것  
+
+**feature들의 제곱이나 세제곱을 하게되면 범위가 feature마다 매우 달라지기 때문에 feature scaling이 매우 중요해진다.**  
+
+3차식말고도 제곱근의 형태로 나타내는 방법도 있다.  
+제곱근의 함수를 생각해본다면 어떤 지점까지 평평해지지 감소하지는 않는 개형이다.  
+
+$$
+h_\theta{(x)} = \theta_0+\theta_1X+\theta_2\sqrt{X}
+$$
+
+<br>
+<br>
+
+## Normal equation  
+
+normal equation은 theta를 분석적으로 구하는 방법이다. 그래서 여러번 알고리즘을 돌릴 필용 없이, theta의 최적의 값을 한 번에 구한다.  
+
+각 theta에 대해 모두 각각 편미분하여 0이되게 하는 식을 풀면 되지만, 행렬의 형태로 해결하는 것이 더 수월하다.  
+
+```{r}
+
+```  
+
+<br>
+
+### comparison of gradient descent and the normal equation  
+
+```{r}
+
+```  
+
+
+
+<br>
+<br>
+
+## Normal equation and non-invertibility(optional)  
+
+The generalized inverse (or pseudo inverse) 는 R에서 pinv()함수로 계산할 수 있다. $X^tX$가 역행렬이 존재하지 않아도 구할 수 있게 된다.  
+
+만약 $X^tX$가 singular이면 불필요한 feature를 지워 선형독립이 되게 맞춰준다. full rank이면 역행렬이 존재하게 된다.  
+
+너무 많은 feature들이 있으면 몇몇 feature들을 지우거나 regularization을 사용한다. regularization부분은 나중에 알아보도록 하자.  
+
+```{r}
+
+```  
+
+<br>
+<br>
+
+## Test question  
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
