@@ -3,11 +3,11 @@
 
 ## Coursera - Machine Learning  
 
-1. Introduction  
-
 [Introduction](https://koojaekwan.github.io/book/ML%20-%20Coursera/Introduction.html)  
 
 [Linear Regression with One Variable](https://koojaekwan.github.io/book/ML%20-%20Coursera/Linear-regression-with-one-variable.html)  
+
+[Linear Regression with multiple variables](https://koojaekwan.github.io/book/ML%20-%20Coursera/Linear-regression-with-multiple-variables.html)  
 
 ## 시민의 교양  
 
