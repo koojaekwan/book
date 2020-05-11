@@ -397,7 +397,7 @@ setwd("D:\\Jae Kwan\\github\\book\\ML - Coursera")
 
 ### Data  
 
-```{r}
+```{r echo=TRUE}
 data1 <- read.table("ex1data1.txt", sep=",")
 data2 <- read.table("ex1data2.txt", sep=",")
 
@@ -407,7 +407,7 @@ head(data2)
 
 ### A = WARMUPEXERCISE() is an example function that returns the 5x5 identity matrix  
 
-```{r}
+```{r echo=TRUE}
 A <- function(x) {
   diag(x)
   }
@@ -419,7 +419,7 @@ WARMUPEXERCISE
 
 ### Gradient descent  
 
-```{r}
+```{r echo=TRUE}
 x <- data1[,1]
 y <- data1[,2]
 
@@ -459,7 +459,7 @@ while (T) {
 }
 ```  
 
-```{r}
+```{r echo=TRUE}
 temp[(i-10):i]
 cost_history[[i-1]]
 theta_history[[i-1]]
@@ -467,7 +467,7 @@ theta_history[[i-1]]
 
 각각 tolerance, cost값, 선형 회귀의 coefficients이다.  
 
-```{r}
+```{r echo=TRUE}
 fit <- lm(y~x)
 fit$coefficients
 ```  
@@ -476,7 +476,7 @@ fit$coefficients
 
 ### Normal Equation  
 
-```{r}
+```{r echo=TRUE}
 solve(t(X) %*% X) %*% t(X) %*% y
 ```  
 
@@ -485,7 +485,7 @@ solve(t(X) %*% X) %*% t(X) %*% y
 
 ### Feature Scaling  
 
-```{r}
+```{r echo=TRUE}
 featureNormalize <- function(X_norm){
   mu <- colMeans(X_norm)
   sigma <- apply(X_norm,2,function(x) sd(x))
@@ -504,7 +504,7 @@ featureNormalize(data2)
 
 data를 받아 각 컬럼별로 컬럼의 평균을 빼고 컬럼의 표준편차를 각 컬럼에 대해 적용하는 사용자 정의 함수를 만들었다.  
 
-```{r}
+```{r echo=TRUE}
 scale(data2, center = T, scale = T)
 ```  
 

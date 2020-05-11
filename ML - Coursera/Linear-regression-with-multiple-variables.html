@@ -495,6 +495,10 @@ h_\theta{(x)} = \theta_0+\theta_1X+\theta_2\sqrt{X}
 <h2>Exercise</h2>
 <div id="data" class="section level3">
 <h3>Data</h3>
+<pre class="r"><code>data1 &lt;- read.table(&quot;ex1data1.txt&quot;, sep=&quot;,&quot;)
+data2 &lt;- read.table(&quot;ex1data2.txt&quot;, sep=&quot;,&quot;)
+
+head(data1)</code></pre>
 <pre><code>##       V1      V2
 ## 1 6.1101 17.5920
 ## 2 5.5277  9.1302
@@ -502,6 +506,7 @@ h_\theta{(x)} = \theta_0+\theta_1X+\theta_2\sqrt{X}
 ## 4 7.0032 11.8540
 ## 5 5.8598  6.8233
 ## 6 8.3829 11.8860</code></pre>
+<pre class="r"><code>head(data2)</code></pre>
 <pre><code>##     V1 V2     V3
 ## 1 2104  3 399900
 ## 2 1600  3 329900
@@ -512,6 +517,13 @@ h_\theta{(x)} = \theta_0+\theta_1X+\theta_2\sqrt{X}
 </div>
 <div id="a-warmupexercise-is-an-example-function-that-returns-the-5x5-identity-matrix" class="section level3">
 <h3>A = WARMUPEXERCISE() is an example function that returns the 5x5 identity matrix</h3>
+<pre class="r"><code>A &lt;- function(x) {
+  diag(x)
+  }
+
+WARMUPEXERCISE &lt;- A(5)
+
+WARMUPEXERCISE</code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5]
 ## [1,]    1    0    0    0    0
 ## [2,]    0    1    0    0    0
@@ -521,20 +533,63 @@ h_\theta{(x)} = \theta_0+\theta_1X+\theta_2\sqrt{X}
 </div>
 <div id="gradient-descent" class="section level3">
 <h3>Gradient descent</h3>
+<pre class="r"><code>x &lt;- data1[,1]
+y &lt;- data1[,2]
+
+computeCost &lt;- function(X, y, theta){
+  sum((X%*%theta-y)^2) / (2*length(y))
+  }
+
+
+# learning rate
+alpha &lt;- 0.01
+
+# initialize coefficients
+theta &lt;- matrix(c(2,2), nrow=2)
+
+# add a column of 1's for the intercept coefficient
+X &lt;- cbind(1, as.matrix(x))
+
+
+cost_history &lt;- rep(0,5000)
+theta_history &lt;- list(0)
+temp &lt;- rep(0,5000)
+i &lt;- 1
+# gradient descent
+while (T) {
+  error &lt;- X %*% theta - y
+  theta &lt;- theta - alpha * (t(X) %*% as.matrix(error) / length(y))
+  cost_history[i] &lt;- computeCost(X, y, theta)
+  theta_history[[i]] &lt;- theta
+  
+  if(i&gt;=2){
+    temp[i] &lt;- abs(cost_history[i]-cost_history[i-1])
+    if(abs(temp[i])&lt;10^(-7)) break;
+  }
+  
+  i &lt;- i+1
+  if(i&gt;5000) break;
+}</code></pre>
+<pre class="r"><code>temp[(i-10):i]</code></pre>
 <pre><code>##  [1] 1.035198e-07 1.031469e-07 1.027754e-07 1.024052e-07 1.020363e-07
 ##  [6] 1.016688e-07 1.013026e-07 1.009377e-07 1.005741e-07 1.002119e-07
 ## [11] 9.985091e-08</code></pre>
+<pre class="r"><code>cost_history[[i-1]]</code></pre>
 <pre><code>## [1] 4.476999</code></pre>
+<pre class="r"><code>theta_history[[i-1]]</code></pre>
 <pre><code>##           [,1]
 ## [1,] -3.878331
 ## [2,]  1.191281</code></pre>
 <p>각각 tolerance, cost값, 선형 회귀의 coefficients이다.</p>
+<pre class="r"><code>fit &lt;- lm(y~x)
+fit$coefficients</code></pre>
 <pre><code>## (Intercept)           x 
 ##   -3.895781    1.193034</code></pre>
 <p>최소제곱법의 normal equation으로 구한 값과 비슷하다. iteration을 늘렸다면 값이 동일하게 나올 것이다.</p>
 </div>
 <div id="normal-equation-1" class="section level3">
 <h3>Normal Equation</h3>
+<pre class="r"><code>solve(t(X) %*% X) %*% t(X) %*% y</code></pre>
 <pre><code>##           [,1]
 ## [1,] -3.895781
 ## [2,]  1.193034</code></pre>
@@ -542,6 +597,20 @@ h_\theta{(x)} = \theta_0+\theta_1X+\theta_2\sqrt{X}
 </div>
 <div id="feature-scaling" class="section level3">
 <h3>Feature Scaling</h3>
+<pre class="r"><code>featureNormalize &lt;- function(X_norm){
+  mu &lt;- colMeans(X_norm)
+  sigma &lt;- apply(X_norm,2,function(x) sd(x))
+  
+  new_dat &lt;- matrix(ncol = ncol(X_norm), nrow = nrow(X_norm))
+  
+  for(i in 1:ncol(new_dat)){
+    new_dat[,i] &lt;- (X_norm[,i]-mu[i])/sigma[i]
+  }
+  return(new_dat)
+  
+}
+
+featureNormalize(data2)</code></pre>
 <pre><code>##                [,1]       [,2]        [,3]
 ##  [1,]  0.1300098691 -0.2236752  0.47574687
 ##  [2,] -0.5041898382 -0.2236752 -0.08407444
@@ -591,6 +660,7 @@ h_\theta{(x)} = \theta_0+\theta_1X+\theta_2\sqrt{X}
 ## [46,] -0.1870899846  1.0904165 -0.32399786
 ## [47,] -1.0037479410 -0.2236752 -0.80704367</code></pre>
 <p>data를 받아 각 컬럼별로 컬럼의 평균을 빼고 컬럼의 표준편차를 각 컬럼에 대해 적용하는 사용자 정의 함수를 만들었다.</p>
+<pre class="r"><code>scale(data2, center = T, scale = T)</code></pre>
 <pre><code>##                  V1         V2          V3
 ##  [1,]  0.1300098691 -0.2236752  0.47574687
 ##  [2,] -0.5041898382 -0.2236752 -0.08407444
