@@ -366,7 +366,9 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image14.png")
-```
+```  
+
+소수점 2째자리까지 표시이므로 0.20이 맞을 것이다.  
 
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image15.png")
@@ -382,5 +384,140 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 
 ```{r}
 include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Linear_regression_multiple_var/image18.png")
-```
+```  
+
+<br>
+<br>
+
+## Exercise  
+
+```{r echo=FALSE}
+setwd("D:\\Jae Kwan\\github\\book\\ML - Coursera")
+```  
+
+### Data  
+
+```{r}
+data1 <- read.table("ex1data1.txt", sep=",")
+data2 <- read.table("ex1data2.txt", sep=",")
+
+head(data1)
+head(data2)
+```  
+
+### A = WARMUPEXERCISE() is an example function that returns the 5x5 identity matrix  
+
+```{r}
+A <- function(x) {
+  diag(x)
+  }
+
+WARMUPEXERCISE <- A(5)
+
+WARMUPEXERCISE
+```  
+
+### Gradient descent  
+
+```{r}
+x <- data1[,1]
+y <- data1[,2]
+
+computeCost <- function(X, y, theta){
+  sum((X%*%theta-y)^2) / (2*length(y))
+  }
+
+
+# learning rate
+alpha <- 0.01
+
+# initialize coefficients
+theta <- matrix(c(2,2), nrow=2)
+
+# add a column of 1's for the intercept coefficient
+X <- cbind(1, as.matrix(x))
+
+
+cost_history <- rep(0,5000)
+theta_history <- list(0)
+temp <- rep(0,5000)
+i <- 1
+# gradient descent
+while (T) {
+  error <- X %*% theta - y
+  theta <- theta - alpha * (t(X) %*% as.matrix(error) / length(y))
+  cost_history[i] <- computeCost(X, y, theta)
+  theta_history[[i]] <- theta
+  
+  if(i>=2){
+    temp[i] <- abs(cost_history[i]-cost_history[i-1])
+    if(abs(temp[i])<10^(-7)) break;
+  }
+  
+  i <- i+1
+  if(i>5000) break;
+}
+```  
+
+```{r}
+temp[(i-10):i]
+cost_history[[i-1]]
+theta_history[[i-1]]
+```  
+
+각각 tolerance, cost값, 선형 회귀의 coefficients이다.  
+
+```{r}
+fit <- lm(y~x)
+fit$coefficients
+```  
+
+최소제곱법의 normal equation으로 구한 값과 비슷하다. iteration을 늘렸다면 값이 동일하게 나올 것이다.  
+
+### Normal Equation  
+
+```{r}
+solve(t(X) %*% X) %*% t(X) %*% y
+```  
+
+위와 동일한 값이다.  
+
+
+### Feature Scaling  
+
+```{r}
+featureNormalize <- function(X_norm){
+  mu <- colMeans(X_norm)
+  sigma <- apply(X_norm,2,function(x) sd(x))
+  
+  new_dat <- matrix(ncol = ncol(X_norm), nrow = nrow(X_norm))
+  
+  for(i in 1:ncol(new_dat)){
+    new_dat[,i] <- (X_norm[,i]-mu[i])/sigma[i]
+  }
+  return(new_dat)
+  
+}
+
+featureNormalize(data2)
+```  
+
+data를 받아 각 컬럼별로 컬럼의 평균을 빼고 컬럼의 표준편차를 각 컬럼에 대해 적용하는 사용자 정의 함수를 만들었다.  
+
+```{r}
+scale(data2, center = T, scale = T)
+```  
+
+물론 scale기본함수 하나면 끝난다.  
+
+
+
+
+
+
+
+
+ 
+
+
 
