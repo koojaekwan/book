@@ -395,6 +395,14 @@ include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20
 setwd("D:\\Jae Kwan\\github\\book\\ML - Coursera")
 ```  
 
+## Library
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(plotly)
+```  
+
+
 ### Data  
 
 ```{r echo=TRUE}
@@ -442,6 +450,7 @@ cost_history <- rep(0,5000)
 theta_history <- list(0)
 temp <- rep(0,5000)
 i <- 1
+
 # gradient descent
 while (T) {
   error <- X %*% theta - y
@@ -459,10 +468,12 @@ while (T) {
 }
 ```  
 
+직전과 현재의 cost차이가 10의 -7승보다 작다면 수렴했다고 판단하고 루프를 중지했고, 또는 iteration횟수가 5000을 넘어가면 또 break를 걸었다. 너무 오래걸릴 일을 방지하기 위함이다.  
+
 ```{r echo=TRUE}
 temp[(i-10):i]
-cost_history[[i-1]]
-theta_history[[i-1]]
+cost_history[[i]]
+theta_history[[i]]
 ```  
 
 각각 tolerance, cost값, 선형 회귀의 coefficients이다.  
@@ -474,14 +485,40 @@ fit$coefficients
 
 최소제곱법의 normal equation으로 구한 값과 비슷하다. iteration을 늘렸다면 값이 동일하게 나올 것이다.  
 
+#### Visualization  
+
+```{r}
+plot(x,y, col="skyblue", main='Linear regression by gradient descent')
+
+for (k in c(seq(1,i,by=100))) {
+  abline(coef=theta_history[[k]], col="pink")
+}
+
+abline(coef=theta, col='blue', lwd=2) # fit line
+```  
+
+iteration의 100번째 sequence마다 fit line의 변화를 나타낸 그래프이다.  
+
+
+```{r fig.height=4, fig.width=5}
+temp <- data.frame(iter = 1:i, cost = cost_history[1:i])
+
+theme_set(theme_bw())
+p <- ggplot(aes(x = iter,y = cost), data = temp) + geom_line()
+
+ggplotly(p)
+```  
+
+iteration에 따른 cost function의 값 변화를 나타낸 그래프  
+
 ### Normal Equation  
 
 ```{r echo=TRUE}
 solve(t(X) %*% X) %*% t(X) %*% y
 ```  
 
-위와 동일한 값이다.  
-
+최소제곱법으로 구한 lm()함수의 값과 동일한 값이다.  
+같은 원리에 의해 구했으니 당연하다.  
 
 ### Feature Scaling  
 
@@ -502,13 +539,15 @@ featureNormalize <- function(X_norm){
 featureNormalize(data2)
 ```  
 
-data를 받아 각 컬럼별로 컬럼의 평균을 빼고 컬럼의 표준편차를 각 컬럼에 대해 적용하는 사용자 정의 함수를 만들었다.  
+data를 받아 각 컬럼별로 컬럼의 평균을 빼고 컬럼의 표준편차를 각 컬럼에 대해 표준편차를 나누는 일을 적용하는 사용자 정의 함수를 만들었다.  
 
 ```{r echo=TRUE}
 scale(data2, center = T, scale = T)
 ```  
 
 물론 scale기본함수 하나면 끝난다.  
+
+
 
 
 
