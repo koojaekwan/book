@@ -490,7 +490,7 @@ fit$coefficients
 ```{r}
 plot(x,y, col="skyblue", main='Linear regression by gradient descent')
 
-for (k in c(seq(1,i,by=100))) {
+for (k in seq(1,i,by=100)) {
   abline(coef=theta_history[[k]], col="pink")
 }
 
@@ -511,7 +511,7 @@ ggplotly(p)
 
 iteration에 따른 cost function의 값 변화를 나타낸 그래프  
 
-### Normal Equation  
+### Normal Equation - practice  
 
 ```{r echo=TRUE}
 solve(t(X) %*% X) %*% t(X) %*% y
