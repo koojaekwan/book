@@ -397,7 +397,7 @@ setwd("D:\\Jae Kwan\\github\\book\\ML - Coursera")
 
 ## Library
 
-```{r message=FALSE, warning=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(plotly)
 ```  
@@ -470,6 +470,13 @@ while (T) {
 
 직전과 현재의 cost차이가 10의 -7승보다 작다면 수렴했다고 판단하고 루프를 중지했고, 또는 iteration횟수가 5000을 넘어가면 또 break를 걸었다. 너무 오래걸릴 일을 방지하기 위함이다.  
 
+```{r}
+length(i)
+```  
+
+수렴은 `r length(i)`번째에 이루어졌다.  
+
+
 ```{r echo=TRUE}
 temp[(i-10):i]
 cost_history[[i]]
@@ -487,7 +494,7 @@ fit$coefficients
 
 #### Visualization  
 
-```{r}
+```{r echo=TRUE}
 plot(x,y, col="skyblue", main='Linear regression by gradient descent')
 
 for (k in seq(1,i,by=100)) {
@@ -501,7 +508,7 @@ iteration의 100번째 sequence마다 fit line의 변화를 나타낸 그래프�
 파란선은 최종 fit line이고 나머지는 그 이전의 적합선을 나타낸다.  
 
 
-```{r fig.height=4, fig.width=5}
+```{r echo=TRUE, fig.height=4, fig.width=5}
 temp <- data.frame(iter = 1:i, cost = cost_history[1:i])
 
 theme_set(theme_bw())
