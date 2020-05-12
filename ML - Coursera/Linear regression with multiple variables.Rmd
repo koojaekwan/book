@@ -498,6 +498,7 @@ abline(coef=theta, col='blue', lwd=2) # fit line
 ```  
 
 iteration의 100번째 sequence마다 fit line의 변화를 나타낸 그래프이다.  
+파란선은 최종 fit line이고 나머지는 그 이전의 적합선을 나타낸다.  
 
 
 ```{r fig.height=4, fig.width=5}
@@ -506,7 +507,7 @@ temp <- data.frame(iter = 1:i, cost = cost_history[1:i])
 theme_set(theme_bw())
 p <- ggplot(aes(x = iter,y = cost), data = temp) + geom_line()
 
-ggplotly(p)
+ggplotly(p, height = 350, width=600)
 ```  
 
 iteration에 따른 cost function의 값 변화를 나타낸 그래프  
