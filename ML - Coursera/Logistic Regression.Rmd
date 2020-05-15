@@ -1,0 +1,661 @@
+---
+title: "Machine Learning with Coursera"
+author: "Jae Kwan Koo"
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    df_print: paged
+  word_document: default
+  github_document:
+    toc: yes
+    toc_depth: 4
+---  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Classification  
+
+### tutorial  
+
+예측변수 y가 discrete value인 경우인 분류(classification)문제에 대해 알아보자.  
+분류알고리즘 중 하나인 `Logistic Regression(로지스틱 회귀)`에 대해 알아볼 것이다.  
+
+* What is the Classification?  
+    * 스팸 이메일 분류  
+    * 특정 거래의 사기유무  
+    * 특정 사람이 도용된 신용카드 or 비밀번호 사용여부  
+    * 악성, 양성 종양 구분  
+    
+|type|description|
+|--|--|
+|0|negative class|
+|1|positive class|  
+
+예컨대 0을 양성종양(malignant tumor) 1을 악성종양(benign tumor)으로 취급하는 것 처럼 말이다.  
+0과 1을 지칭하는 것을 임의일 수 있어 다소 의아할 수 있지만, 보통 1을 찾고자하는 어떤 것의 존재를 말하고 있지만, negative이나 positive를 정하는 것은 자의적이며 큰 의미가 없다  
+
+<br>  
+
+우선 우리는 0과 1인 경우만 분류하는 classification문제를 생각하자.  
+~~(차후, 다중분류(multiclass classification)을 다뤄보도록 한다.)~~  
+
+<br>
+
+### Why do we use the Logistic Regression?  
+
+분류문제에 대해 배웠던 선형회귀 알고리즘을 데이터에 대해 적용해보자  
+직선을 그어 생각해봤을 때, 0.5를 임계값으로 두어 확률이 0.5보다크면 1로 생각하고 작으면 0으로 생각하게 된다.  
+
+선형회귀식이 분류문제를 해결하는데 잘 작동하는 것 처럼 보이지만, 오른쪽 끝에 새로운 관측치가 있다고 가정했을 때, 회귀식은 오른편으로 약간 이끌리게 된다. 이 과정 이후 다시 tumor size에 대해 잘 작동하는지 생각하면 이전과는 결과가 약간 달라짐을 알 수 있다. 한 관측치를 추가했을 뿐인데 이 관측치는 우리에게 새로운 정보를 주지 못한다.  
+
+```{r}
+
+```  
+
+<br>
+
+
+ISLR에서는 카드대금과 연체확률에 대한 예시를 보여준다.  
+카드대금이 0에 가까우면 연체 예측확률이 음수가 되고, 카드대금이 아주 큰 경우에는 예측확률이 1보다 크게 되는데, 카드대금이 얼마든 상관없이 연체확률은 0과 1사이에 있어야 되기 때문에 이 예측은 맞지가 않다.  
+(만약 X의 범위가 제한되어 있지 않다면, 매우 큰 X에 대해서는 확률값이 1을 넘겨버리는 경우가 존재하게 된다.)  
+
+이 문제를 해결하기 위해서는 모든 X값에 대해 0과 1사이의 값을 제공하는 함수를 사용하여 f(X)를 모델링 해야한다.  
+
+많은 함수가 이 조건을 만족하지만, 로지스틱 회귀에서는 로지스틱 함수(logistic function, sigmoid function)를 사용한다.  
+
+통계 관점에서 로지스틱 회귀모형을 이해 해보자.  
+
+### logistic regression model  
+
+$h(x) = \beta_0+\beta_1X_i$ 와 같이 선형모형으로 두게 되면, 경우에 따라 h(x)>1, h(x)<0이 될 수 있다고 했다.  
+
+그렇다면 항상 어떤 input X에 대해서 0과 1사이의 값을 둘 수 있는 중간에서 걸어줄 수 있는 연계함수가 필요하다.  
+가장 간편한 경우는 이 연계함수 g를 누적분포함수의 역함수로 두면 된다. 확률을 누적한 그래프는 시작하지 않았다면 0일 것이고, 모든 경우가 다 나와서 모든 확률을 누적했다면 결국 1이된다. 이 함수의 역함수는 0에서 1까지 가질 것이다.  
+<br>
+
+$$
+g(h_\theta(x)) = x^t\theta
+$$  
+위의 반응변수에 걸리는 연계함수가 만약 항등함수이면 선형회귀와 같다. 실제로 선형회귀는 연계함수가 항등함수인 경우이다.  
+
+이제 이 연계함수를 누적분포함수의 역함수로 걸어보자. 왜냐하면 반응변수의 값은 0~1만 가져야 하므로 반응변수의 범위는 누적분포함수와 같다. $h(x) = \int_{-\infty}^xf(x)dx$로 생각하면, 연계함수 g는 이것의 역함수가 되어야 우변처럼 $x^t\beta$로 나올 것이다.  
+<br>
+
+$$
+h_\theta(x) = g^{-1}(x^t\theta) = \int_{-\infty}^\eta f(x)dx
+$$  
+
+<br>
+
+`로지스틱 분포`를 f(x)의 확률밀도함수라고 두면  
+
+$$
+f(x) = {e^s\over (1+e^x)^2}
+$$  
+
+위와 같이 얻어진다.  
+<br>
+
+$$
+h_\theta(x) = g^{-1}(x^t\theta) = \int_{-\infty}^\eta f(x)dx = {e^\eta\over 1+e^\eta}
+$$  
+
+<br>
+따라서 우리의 가설을 얻었다. 마지막으로 정리하기 위해 $\eta=x^t\theta$를 대입하면  
+
+$$
+e^{x^t\theta}\over 1+e^{x^t\theta}
+$$  
+
+이 최종 식이다.  
+<br>  
+
+
+$$
+log({h_\theta(x)\over1-h_\theta(x)}) = x^t\theta
+$$  
+
+정리하면, 위와 같이 되는데 좌변을 `log-odds` 또는 `logit`이라고 한다.  
+연계함수 g가 로짓인 경우를 `로지스틱 회귀모형`이라고 부른다.   
+<br>
+
+$$
+Logistic function(x) = {e^{x}\over 1+e^{x}} = {1\over1+e^{-x}} = {1\over2} + {1\over2}tanh({x\over2})
+$$  
+
+
+로지스틱 회귀는 **분류**알고리즘으로 사용하지만, **회귀**라는 단어 때문에 헛갈리지 않기를 바란다. 이 이름은 Linear Regression과 같은 technique을 사용했기 때문에 붙여진 이름이라고 한다.  
+
+[What is the logistic regression?](https://towardsdatascience.com/understanding-logistic-regression-9b02c2aec102)  
+
+<br>
+
+
+
+<br>
+<br>
+
+## Hypothesis Representation  
+
+이제 위에서 봤던 로지스틱 함수를 이용해 로지스틱 회귀모형을 표현해보자.  
+
+$$
+h_\theta{(x)} = g(\theta^Tx) = {1\over 1+e^{-\theta^Tx}} 
+$$  
+
+여기서 g(z)는 $1\over1+e^{-z}$인 `logistric function`을 의미한다.  
+g(z)는 0과 1사이의 s자형 개형을 가지며, x=0일 때, 0.5를 지나는 함수이다.  
+이 로지스틱 함수를 이용하여 우리가 원하는 가설의 범위가 0과 1사이가 되도록 하는 것이다.  
+
+
+아래는 가설을 어떤식으로 해석을 할 것인지를 보여준다.  
+
+<br>
+
+```{r}
+
+```  
+
+<br>  
+
+어떤 input x들에 대해 y가 1인 추정된 확률이라고 하자.  
+
+x0 : 선형회귀부터 계속 1이라고 취급하고 있다.  
+x1 : 종양의 크기(tumorsize)  
+
+특정 크기 종양의 환자에 대한 정보를 x벡터에 넣었더니 0.7이 나왔다.  
+-> 이 환자에 대해서 y = 1일 확률은 0.7(악성종양일 확률이 0.7)  
+
+y값은 0 or 1이기 때문에 이 경우, 0일 확률은 1 - 0.7 = 0.3이 된다.  
+
+
+## Decision boundary  
+
+그렇다면 어떤 결정 경계(decision boundary)를 가지고 분류를 하게 되는걸까?  
+|predict|condition|
+|---|-------|
+|y=1|$h_\theta(x)\ge0.5$|
+|y=0|$h_\theta(x)<0.5 $|  
+
+가설의 범위는 0과 1사이이다. probability가 0.5이상이면 1로 간주하겠다는 것이다.  
+이 말은 즉, $\theta^TX>0$과 같은 말이다. 그래프 개형을 보면 0.5이상을 가지는 y범위에 대해 x의 범위는 0이상임을 알 수 있다.  
+
+<br>  
+
+### Linear decision boundary  
+
+```{r}
+
+```  
+<br>
+
+예컨대, $\theta = [-3, 1, 1]^T$인 경우를 생각하자.  
+$\theta^TX>0$이므로 $x_1+x_2\ge3$일 때, y=1로 예측한다.  
+
+<br>
+
+### Non-linear decision boundary  
+
+```{r}
+
+```  
+
+<br>
+
+이전 예제의 가설에 제곱항 2개가 더 추가된 가설이다.  
+예컨대, $\theta = [-1, 0, 0, 1, 1]^T$인 경우를 생각하자.  
+결과적으로, 중심이 (0,0)이고 반지름이 1인 원의 바깥은 y=1로 예측할 것이다.  
+
+또한, 직선으로는 positive, negative를 구분할 수 없는 더 복잡한 decision bondary들이 존재할 수 있다.  
+
+<br>
+
+## Cost function  
+
+**어떻게 $\theta$를 선택할 것인가?**  
+
+이전과 마찬가지로 m개의 training set의 observation들이 있고 $\theta_0$부터 $\theta_n$까지 n+1차원이 존재한다.  
+물론 $x_0=1$이며, 반응변수 y는 0,1의 값을 가진다.  
+
+<br>
+
+```{r}
+
+```  
+
+이전의 cost function와 형태는 같다. 하지만, 이번에는 1/m만 summation밖에 꺼냈다.  
+
+summation안의 값들을 $cost(h_\theta(x),y)={1\over2}(h_\theta(x)-y)^2$라고 하자.  
+
+가설의 형태는 로지스틱 함수의 개형을 가지는 비선형 함수이다. 이런 가설의 형태를 가지는 비용함수 J는 많은 극소점을 가지는 함수가 된다.  
+-> 경사하강법을 적용했을 때, 전역 최소값이라는 보장이 없다.  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+이를 해결하기 위해 새로운 형태의 cost function을 제시하려고 한다.  
+아래부터는 얻기까지의 과정이다.  
+
+가설의 범위는 0과 1사이기 때문에 -log의 그림을 0과 1사이만 그리면 (1,0)을 찍게 된다.  
+y=1일 때를 생각해보면 cost가 0일 때, 당연히 1로 정확히 예측하게 된다.  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+마찬가지이다.  
+
+<br>
+<br>
+
+## Simplified cost function and gradient descent  
+
+y의 범위에 따라 분리된 함수를 좀 단순화시켜서 확인하고 싶은 생각이 들어졌다.  
+
+$$
+Cost(h_\theta(x),y) = -ylog(h_\theta(x))-(1-y)log(1-h_\theta(x))
+$$  
+
+y가 1과 0을 가지는 것을 이용해서 앞, 뒤를 잘 조절해주면 한 식으로 표현이 가능하다.  
+
+
+```{r}
+
+```  
+
+이제 logistic regression의 cost function을 얻었다.  
+이 방법으로 표현한 cost function은 logistic regression의 convex를 보장한다.  
+이제 global minimum을 찾을 수 있다.  
+
+### Why did we choose the cost function like that?  
+
+왜 cost function을 저런식으로 결정했는지는 통계적인 이유가 있다.  
+
+#### Estimate  
+
+추정은 `모수`, 그러니까 알려지지 않았지만 우리가 알고 싶어하는 `unknown parameter`이다. 이 모수와 얼마나 잘 가깝게 추정하는가는 중요한 일 중 하나이다.  
+
+training set에서 관측값들이 1부터 m까지 존재한다는 것은 알고있는 사실이다.  
+이제 m까지의 값들이 모수적 분포를 가지고 확률표본이라고 가정한다.  
+우리가 알고싶은 모수 $\theta$는 가능도함수가 최대가 되는 값이다. 여기서 $\theta$를 최대가능도추정량(MLE)라고 한다.  
+
+$$
+L(\theta;x_1,...,x_m) = f(x_1;\theta)\times...\times f(x_m;\theta)
+$$  
+
+가능도함수가 있으면, 나올 확률이 높은 $\theta$가 좋을 것이다.  
+그래서 가능도함수가 최대가 되는 지점의 $\theta$를 구하고 싶은 것이다.  
+계산의 편의를 위해 likelihood function에 log를 씌워 계산하게 되는데, log를 씌운다고 최대 최소의 지점은 변하지 않기 때문이다.  
+
+#### Likelihood function of Logistic regreession  
+
+로지스틱 모형에서 y는 0과 1만을 가지는 반응변수이다.  
+y를 2가지의 결과 값만 가지는 베르누이 확률변수라고 보자.  
+
+$$
+p(y|x,h) = Ber(y|h(x))
+$$  
+
+$$
+logL(h) = log \prod_{i=1}^mh_i(x_i)^{y_i}(1-h_i(x_i))^{(1-y_i)} = \sum_{i=1}^m(y_ilogh_i(x_i)) + (1-y_i)log(1-h_i(x_i))
+$$  
+
+계산의 편의를 위해 likelihood function에 log를 씌운 log likelihood function을 이용했다.  
+h(x)는 로지스틱 함수이므로 대입한 결과는 아래와 같다.  
+
+
+$$
+logL(h) = \sum(y_ilog({1\over1+exp(-\theta^Tx_i)})
+-(l-y_i)log({exp(-\theta^Tx_i)\over1+exp(-\theta^Tx_i)}))
+$$  
+
+이 값은 $\theta$에 대한 비선형 함수이므로 선형 모형과 같이 간단하게 gradient가 0이 되는 모수 $\theta$값에 대한 수식을 구할 수 없다.  
+수치적인 최적화 방법(numerical optimization)을 통해 최적 모수의 값을 구해야 한다.  
+여기서 최적화 방법은 gradient descent과 같은 방법이 되겠다.  
+
+
+<br>
+<br>
+
+```{r}
+
+```  
+
+업데이트 규칙이 선형회귀와 같다는 것을 알 수 있다.  
+
+
+* vectorized implementation  
+
+n+1개의 $\theta$들을 한번에 업데이트 시킨다.  
+$\theta:=theta-{\alpha\over m}X^T(g(X\theta)-\vec{y})$  
+
+* feature scaling  
+
+매우 다른 범위를 가지는 feature들에 대해 feature scaling을 적용하여 gradient descent를 빠르게 수렴하게 만들 수 있다.  
+
+<br>
+
+## Advanced optimization  
+
+Cost function $J(\theta)$를 최소화가 목적이다.  
+
+```{r}
+
+```  
+
+<br>
+
+advanced optimization algorithms과 몇몇 개념들은 gradient descent보다 훨씬 더 빨리 진행할 수 있고, 매우 큰 ML학습 문제(feature가 너무 많은 경우 등등..)로 더 잘 확장될 수 있다.  
+
+gradient descent를 제외한 3가지는 더 정교한 방법으로 cost function을 최소화시키고 계산한다.  
+
+
+
+## Multi-class classification : one-vs-all  
+
+다중분류에 대해서는 로지스틱 회귀를 어떻게 적용할까?  
+
+* Example  
+    * Email foldering/tagging : work, friends, family, hobby  
+    * medical diagrams : Not ill, Cold, Flu  
+    * Weather : Sunny, Cloudy, Rain, Snow  
+    
+
+y의 index를 결정할 때, 0부터 시작하느냐 1부터 시작하느냐는 중요하지 않다.  
+단지 class를 구분하는 바구니의 이름일 뿐이다.  
+
+```{r}
+
+```  
+
+만약 클래스 1을 구하고 싶으면 클래스1을 제외한 나머지 모두를 0이라고 간주한 채로 이진분류를 진행한다. 나머지에 대해서도 마찬가지로 진행한다.  
+
+3개의 로지스틱 회귀를 통해 각 클래스i에 대해 y=i일 확률을 예측했다.  
+이제 새로운 input x가 들어온다면 3가지의 가설에 모두 넣어 가장 높은 확률을 보이는 곳으로 분류하면 된다.  
+
+<br>
+<br>
+
+## Exercise  
+
+```{r}
+
+```  
+
+<br>
+
+
+```{r}
+
+```  
+
+<br>
+
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```
+
+
+
+
+## Test  
+
+```{r}
+
+```  
+
+```{r}
+
+```  
+
+```{r}
+
+```  
+
+```{r}
+
+```  
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+## Practice  
+
+
+### Library
+
+```{r message=FALSE, warning=FALSE}
+library(data.table)
+library(tidyverse)
+
+library(caret)
+
+library(ggthemes)
+library(gganimate)
+library(plotly)
+```  
+
+### data1  
+
+```{r}
+data1 <- fread("ex2data1.txt", col.names = c("x1", "x2", "y"))
+
+str(data1)
+```  
+
+### Scatter plot  
+
+```{r}
+ggplot(data1, aes(x=x1, y=x2, col=as.factor(y))) + 
+  geom_point(size=6,alpha=0.6)+
+  ggtitle("scatter plot for Data1")+ 
+  theme_bw() + 
+  scale_color_calc("Y")+
+  theme(axis.text=element_text(size=15),
+        axis.title=element_text(size=15,face="bold"),
+        legend.text=element_text(size=15))
+```  
+
+### Density  
+
+```{r}
+ggplot(data1, aes(x = x1)) +
+  geom_density(data=subset(data1, y == '0'), fill = "blue", alpha = 0.3) +
+  geom_density(data=subset(data1, y == '1'), fill = "red",  alpha = 0.3) + 
+  theme_bw() + 
+  xlim(0,130) +
+  theme(axis.text=element_text(size = 15), 
+        axis.title=element_text(size=15,face="bold")) +
+  labs(x = "x1 & x2")
+```  
+
+
+
+### Gradient descent for logistic regression  
+
+```{r, results='asis'}
+### sigmoid function  
+
+sigmoid <- function(z){
+  return(1/(1+exp(-z)))
+}
+
+### Cost finction
+
+costfunction <- function(theta){
+  g <- sigmoid(X%*%theta)
+  m <- nrow(X)
+  
+  J <- (1/m)*sum((-Y*log(g))-((1-Y)*log(1-g)))
+  
+  return(J)
+}
+
+
+
+# feature scaling
+temp <- scale(data1[,1:2], center = T,scale = T)
+data1 <- data.frame(temp, y=data1$y)
+
+# Design Matrix X
+temp_x <- as.matrix(data1[, c(1,2)])
+X <- cbind(rep(1,nrow(temp_x)), temp_x)
+
+#Response matrix
+Y <- as.matrix(data1$y)
+
+# Intial values 
+theta <- matrix(c(2,2,2), nrow=3)
+
+
+
+
+
+
+
+# Define learning rate and iteration limit
+alpha <- 0.01
+
+cost_history <- NULL
+i <- 1
+
+while(T){
+  delta <- (t(X) %*% (sigmoid(X%*%theta) - Y)) / length(Y)
+  theta <- theta - (alpha*delta)
+  
+  cost_history[i] <- costfunction(theta)
+  
+  if(i>=2){
+    temp[i] <- abs(cost_history[i]-cost_history[i-1])
+    if(abs(temp[i])<=10^(-9)) break;
+  }
+  
+  i <- i+1
+  
+  if(i>=100000) break;
+  
+  
+}
+
+
+data.frame("iteration" = i, "cost_on_convergence" = cost_history[i])
+```  
+
+```{r}
+temp <- data.frame(iter = 1:i, cost = cost_history[1:i])
+
+theme_set(theme_bw())
+p <- ggplot(aes(x = iter,y = cost), data = temp) + geom_line()
+
+
+p +transition_reveal(iter)
+# ggplotly(p, height = 350, width=600)
+```
+
+
+### Comparison gradient descent with glm()  
+
+```{r}
+model <- glm(y~x1+x2,family = 'binomial', data=data1)
+
+temp <- data.frame(rbind(t(theta), model$coefficients))
+rownames(temp) <- c("gradient descent", "glm function")
+colnames(temp) <- c("intercept", "x1", "x2")
+
+temp
+```  
+
+### Prediction  
+
+```{r}
+b0 <- t(theta)[1] # intercept
+theta1 <- t(theta)[2] # x1
+theta2 <- t(theta)[3] # x2
+
+prob <- 
+exp(b0 + theta1*data1$x1 + theta2*data1$x2) / 
+  (1+exp(b0 + theta1*data1$x1 + theta2*data1$x2))
+
+prediction <- ifelse(prob>=0.5, 1, 0)
+
+
+# table(data1$y, prediction)
+confusionMatrix(as.factor(data1$y), as.factor(prediction))
+```  
+gradient descent로 적합한 모형의 confusionmatrix이다.  
+단순히 전체 데이터에 대해 train하고 test까지 한 결과이다.  
+
+```{r}
+prob <- predict(model, data1, type="response")
+prediction <- ifelse(prob>=0.5, 1, 0)
+
+confusionMatrix(as.factor(data1$y), as.factor(prediction))
+```  
+
+`glm()`함수로 적합한 모형의 confusionmatrix이다.  
+여기서 gradient descent와의 성능차이는 없다.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
