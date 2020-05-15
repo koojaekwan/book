@@ -55,7 +55,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 선형회귀식이 분류문제를 해결하는데 잘 작동하는 것 처럼 보이지만, 오른쪽 끝에 새로운 관측치가 있다고 가정했을 때, 회귀식은 오른편으로 약간 이끌리게 된다. 이 과정 이후 다시 tumor size에 대해 잘 작동하는지 생각하면 이전과는 결과가 약간 달라짐을 알 수 있다. 한 관측치를 추가했을 뿐인데 이 관측치는 우리에게 새로운 정보를 주지 못한다.  
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image1.png")
 ```  
 
@@ -159,7 +159,7 @@ g(z)는 0과 1사이의 s자형 개형을 가지며, x=0일 때, 0.5를 지나�
 
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image2.png")
 ```  
 
@@ -187,7 +187,7 @@ y값은 0 or 1이기 때문에 이 경우, 0일 확률은 1 - 0.7 = 0.3이 된�
 가설의 범위는 0과 1사이이다. probability가 0.5이상이면 1로 간주하겠다는 것이다.  
 이 말은 즉, $\theta^TX>0$과 같은 말이다. 그래프 개형을 보면 0.5이상을 가지는 y범위에 대해 x의 범위는 0이상임을 알 수 있다.  
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image3.png")
 ```
 
@@ -196,7 +196,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 
 ### Linear decision boundary  
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image4.png")
 ```  
 <br>
@@ -208,7 +208,7 @@ $\theta^TX>0$이므로 $x_1+x_2\ge3$일 때, y=1로 예측한다.
 
 ### Non-linear decision boundary  
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image5.png")
 ```  
 
@@ -231,7 +231,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image6.png")
 ```  
 
@@ -244,7 +244,7 @@ summation안의 값들을 $cost(h_\theta(x),y)={1\over2}(h_\theta(x)-y)^2$라고
 
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image7.png")
 ```  
 
@@ -258,7 +258,7 @@ y=1일 때를 생각해보면 cost가 0일 때, 당연히 1로 정확히 예측�
 
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image8.png")
 ```  
 
@@ -279,7 +279,7 @@ $$
 y가 1과 0을 가지는 것을 이용해서 앞, 뒤를 잘 조절해주면 한 식으로 표현이 가능하다.  
 
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image9.png")
 ```  
 
@@ -336,7 +336,7 @@ $$
 <br>
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image10.png")
 ```  
 
@@ -358,7 +358,7 @@ $\theta:=theta-{\alpha\over m}X^T(g(X\theta)-\vec{y})$
 
 Cost function $J(\theta)$를 최소화가 목적이다.  
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image11.png")
 ```  
 
@@ -383,7 +383,7 @@ gradient descent를 제외한 3가지는 더 정교한 방법으로 cost functio
 y의 index를 결정할 때, 0부터 시작하느냐 1부터 시작하느냐는 중요하지 않다.  
 단지 class를 구분하는 바구니의 이름일 뿐이다.  
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image12.png")
 ```  
 
@@ -397,7 +397,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 
 ## Exercise  
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image13.png")
 ```  
 
@@ -408,20 +408,20 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 <br>
 
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image14.png")
 ```  
 
 <br>
 
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image15.png")
 ```  
 
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image16.png")
 ```  
 
@@ -434,7 +434,7 @@ if y=0, cost->0 as h->0
 
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image17.png")
 ```  
 
@@ -442,7 +442,7 @@ learning rate를 선택하는 가장 합리적인 방법은 비용함수에 대�
 
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image18.png")
 ```  
 
@@ -450,7 +450,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 
 <br>
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image19.png")
 ```  
 
@@ -466,7 +466,7 @@ b를 1로 보고 a,c를 0으로 본 뒤, b를 분류한다.
 
 ## Test  
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image20.png")
 ```  
 
@@ -474,7 +474,7 @@ y=1일 확률이 0.4라고 예측했다. y=0일 확률은 0.6이다.
 
 1,2
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image21.png")
 ```  
 
@@ -485,7 +485,7 @@ logistic regression의 비용함수는 convex가 되게 했었다. 따라서 glo
 
 1,2
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image22.png")
 ```  
 
@@ -494,7 +494,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 
 1,4
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image23.png")
 ```  
 
@@ -505,7 +505,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 
 1,3
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Logistic_regression/image24.png")
 ```  
 
