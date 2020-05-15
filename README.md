@@ -9,6 +9,8 @@
 
 [Linear Regression with multiple variables](https://koojaekwan.github.io/book/ML%20-%20Coursera/Linear-regression-with-multiple-variables.html)  
 
+[Logistic Regression](https://koojaekwan.github.io/book/ML%20-%20Coursera/Logistic-Regression.html)
+
 ## 시민의 교양  
 
 1. 세금  
