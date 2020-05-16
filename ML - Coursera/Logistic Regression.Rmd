@@ -179,10 +179,9 @@ y값은 0 or 1이기 때문에 이 경우, 0일 확률은 1 - 0.7 = 0.3이 된�
 ## Decision boundary  
 
 그렇다면 어떤 결정 경계(decision boundary)를 가지고 분류를 하게 되는걸까?  
-|predict|condition|
-|---|-------|
-|y=1|$h_\theta(x)\ge0.5$|
-|y=0|$h_\theta(x)<0.5 $|  
+
+y=1 : $h_\theta(x)\ge0.5$  
+y=0 : $h_\theta(x)<0.5 $  
 
 가설의 범위는 0과 1사이이다. probability가 0.5이상이면 1로 간주하겠다는 것이다.  
 이 말은 즉, $\theta^TX>0$과 같은 말이다. 그래프 개형을 보면 0.5이상을 가지는 y범위에 대해 x의 범위는 0이상임을 알 수 있다.  
@@ -602,7 +601,7 @@ data1 <- data.frame(temp, y=data1$y)
 temp_x <- as.matrix(data1[, c(1,2)])
 X <- cbind(rep(1,nrow(temp_x)), temp_x)
 
-#Response matrix
+# Response matrix
 Y <- as.matrix(data1$y)
 
 # Intial values 
@@ -614,7 +613,7 @@ theta <- matrix(c(2,2,2), nrow=3)
 
 
 
-# Define learning rate and iteration limit
+# learning rate
 alpha <- 0.01
 
 cost_history <- NULL
@@ -649,7 +648,7 @@ theme_set(theme_bw())
 p <- ggplot(aes(x = iter,y = cost), data = temp) + geom_line()
 
 
-p +transition_reveal(iter)
+p + transition_reveal(iter)
 # ggplotly(p, height = 350, width=600)
 ```
 
