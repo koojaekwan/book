@@ -35,7 +35,7 @@ knitr::opts_chunk$set(echo = TRUE)
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image1.png")
 ```  
 
 <br>
@@ -50,7 +50,7 @@ knitr::opts_chunk$set(echo = TRUE)
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image2.png")
 ```  
 
 <br>
@@ -100,7 +100,7 @@ There are two main options to address the issue of overfitting:
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image3.png")
 ```  
 
 이 비용함수를 최소화해보자. 이 함수에 약간의 수정을 할 것이다.  
@@ -110,13 +110,13 @@ There are two main options to address the issue of overfitting:
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image4.png")
 ```  
 
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image5.png")
 ```  
 
 <br>
@@ -133,7 +133,7 @@ parameters들을 shrinkage하기 위한 modified cost function이다.
 이후, multi-selection course에서 어떻게 regularization parameter을 잘 선택할 것인지 알아보도록 하자.  
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image6.png")
 ```  
 
 Using the above cost function with the extra summation, we can smooth the output of our hypothesis function to reduce overfitting.  
@@ -150,7 +150,7 @@ Hence, what would happen if $\lambda$ = 0 or is too small ?
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image7.png")
 ```  
 
 <br>
@@ -161,7 +161,7 @@ $\theta_0$만 따로 분리해서 적었다.
 ### Normal equation  
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image8.png")
 ```  
 
 <br>
@@ -173,7 +173,7 @@ regularization을 선형모형에 적용하면 $\theta$는 위와 같이 구해�
 ### Non-invertibility  
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image9.png")
 ```  
 
 <br>
@@ -191,7 +191,7 @@ However, when we add the term $\lambda I$, then $(X^TX+\lambda I)^{-1}$ becomes 
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image10.png")
 ```  
 
 로지스틱 모형의 cost function에서 제곱항에 대해 페널티 항을 더했다.  
@@ -203,7 +203,7 @@ However, when we add the term $\lambda I$, then $(X^TX+\lambda I)^{-1}$ becomes 
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image11.png")
 ```  
 
 $theta_0$에 대해서는 페널티를 부과하지 않는다.  
@@ -226,26 +226,26 @@ $$
 ## Exercise  
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image12.png")
 ```  
 
 <br>
 
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image13.png")
 ```  
 
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image14.png")
 ```  
 
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image15.png")
 ```
 
 
@@ -256,19 +256,19 @@ $$
 ## Test  
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image16.png")
 ```  
 
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image17.png")
 ```  
 
 <br>
 
 ```{r}
-
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Regularization/image18.png")
 ```  
 
 
