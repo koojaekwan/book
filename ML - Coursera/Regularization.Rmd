@@ -1,0 +1,295 @@
+---
+title: "Machine Learning with Coursera"
+author: "Jae Kwan Koo"
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    df_print: paged
+  word_document: default
+  github_document:
+    toc: yes
+    toc_depth: 4
+---  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```  
+
+
+# Regularization  
+
+## The problem of overffitting  
+
+* underfitting  
+    * the data clearly shows structure not captured by the model.  
+    * Underfitting, or high bias, is when the form of our hypothesis function h maps poorly to the trend of the data.  
+    
+* overfitting  
+    * 알고리즘이 high variance를 갖는다.  
+    
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+과적합은 본질적으로 오차 또는 노이즈(noise)를 너무 면밀히 추적하는 것을 의미  
+과적합 상황은 바람직하지 않다. 얻어진 적합이 원래의 훈련 데이터에 속하지 않는 새로운 관측치들에 대한 반응변수를 정확하게 추정하지 못할 것이기 때문  
+
+분산이 높으면 훈련 데이터의 변화가 작아도  $\hat f$는 크게 변할 수 있다.  
+일반적으로, 통계학습방법의 유연성이 높을수록 분산도 더 높다. 유연한 모형은 관측치들을 아주 잘 따라간다. 이것은 분산이 높은데, 데이터 포인트 중 어느 하나를 변화시키면 추정치 $\hat f$상당히 크게 변할 수도 있기 때문이다.  
+
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+training set에만 잘 맞아 training set을 대상으로 비용함수가 거의 0이 나오고, 복잡한 모형으로 적합될 것이다. 대신 새로운 데이터에 대한 일반화가 잘 되지 못한다.  
+
+특성이 많아질수록 시각적으로 표현하기가 어렵다.  
+특성 대부분이 예측에 도움이 될 것 같은데, 어떤 특성을 남겨야 할지 선택하기 어렵다.  
+특성이 많은데 학습 데이터가 적은 경우 과적합 문제가 발생할 수 있다.   
+<br>
+
+### How to solve?  
+
+This terminology is applied to both linear and logistic regression.  
+There are two main options to address the issue of overfitting:  
+
+1) Reduce the number of features  
+
+* Manually select which features to keep.  
+
+* Use a model selection algorithm (studied later in the course).  
+
+알고리즘이 어떤 특성을 사용할 건지 자동으로 선택하거나 버릴지는 차후 모델 선택 알고리즘을 공부할 때, 자세히 살펴보자.  
+단점으로는 몇 가지 특성을 버림으로 인해 문제에 포함된 정보를 같이 버리게 된다는 것.  
+
+
+2) Regularization(정규화)  
+
+* Keep all the features, but reduce the magnitude of parameters  
+
+* Regularization works well when we have a lot of slightly useful features.  
+
+
+모든 특성들을 남기되 각각의 특성이 갖는 영향 규모를 줄이는 것.  
+즉, $\theta$가 미치는 영향을 줄인다.  
+이 방법은 과적합 문제를 잘 해결한다.  
+
+많은 특성들이 있을 때, 그리고 각 특성들이 예측에 엄청 작은 영향을 미치는 경우를 생각해보자.  
+많은 특성이 있고 각각의 특성이 예측값에 영향을 주기 때문에 특성을 버리기 싫은 것이다.  
+
+<br>
+<br>
+
+
+## Cost function  
+
+<br>
+
+```{r}
+
+```  
+
+이 비용함수를 최소화해보자. 이 함수에 약간의 수정을 할 것이다.  
+이제 우리가 이 함수를 최소화하려면, cost function에서의 $\theta_3$, $\theta_4$가 작게 되어야 될 것이다.  
+전체 함수를 최소화하는 목적에는 변함이 없으나 따로 떼서 일부분을 keep해둔 것이라고 생각하면 나머지 부분에서 작아져야 된다.  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+parameters들을 shrinkage하기 위한 modified cost function이다.  
+편의를 위해 $\theta_0$을 제외한 1부터 summation을 하여 모수에 페널티를 주었다.  
+
+**$\lambda$ : regularization parameter**  
+
+정규화를 통해 이전보다 더 단순한 모형이 될 것이다.  
+
+만약 regularization parameter가 너무 크면 가설이 거의 0으로 되고 절편만 남게 된다. 결국 underfitting의 결과를 초래하게 될 것이다.  
+
+이후, multi-selection course에서 어떻게 regularization parameter을 잘 선택할 것인지 알아보도록 하자.  
+
+```{r}
+
+```  
+
+Using the above cost function with the extra summation, we can smooth the output of our hypothesis function to reduce overfitting.  
+If lambda is chosen to be too large, it may smooth out the function too much and cause underfitting.  
+
+Hence, what would happen if $\lambda$ = 0 or is too small ?  
+-> 초기에 설정한 cost function과 전혀 다르지 않을 것이고 과적합의 문제는 여전할 것이다.  
+
+<br>
+<br>
+
+## regularized linear regression  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+$\theta_0$만 따로 분리해서 적었다.  
+분리했다고 바뀐것은 없다. 단지 $\theta_0$는 페널티를 주지않겠다는 것이다. 나머지 $\theta_1$부터 $\theta_n$까지는 페널티를 주게된다.  
+
+### Normal equation  
+
+```{r}
+
+```  
+
+<br>
+
+regularization을 선형모형에 적용하면 $\theta$는 위와 같이 구해줄 수 있다.  
+
+<br>
+
+### Non-invertibility  
+
+```{r}
+
+```  
+
+<br>
+
+Recall that if m < n, then $(X^TX)^{-1}$ is non-invertible.  
+However, when we add the term $\lambda I$, then $(X^TX+\lambda I)^{-1}$ becomes invertible.  
+
+여기서 I는 대각원소가 1인 diagonal matrix이다. 첫 모수에 대해서는 페널티를 주지 않으므로 I의 첫 대각원소는 0으로 둔다.  
+
+<br>
+<br>
+
+## Regularized logistic regression  
+
+<br>
+
+```{r}
+
+```  
+
+로지스틱 모형의 cost function에서 제곱항에 대해 페널티 항을 더했다.  
+이제 decision boundary는 덜 유연해질 것이다.  
+결과적으로, 과적합(overfitting)을 피할 수 있다.  
+
+
+
+<br>
+
+```{r}
+
+```  
+
+$theta_0$에 대해서는 페널티를 부과하지 않는다.  
+
+나머지에 대해 페널티를 부과한 cost function을 미분한 형태이다.  
+
+$$
+J(\theta)=-{1\over m}\sum_{i=1}^m[y^{(i)}log(h_\theta(x^{(i)}))+
+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]+
+{\lambda\over2m}\sum_{j=1}^n\theta_j^2
+$$  
+
+
+
+
+<br>
+<br>
+
+
+## Exercise  
+
+```{r}
+
+```  
+
+<br>
+
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```
+
+
+
+<br>
+<br>
+
+## Test  
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+```{r}
+
+```  
+
+
+<br>
+<br>  
+
+
+## Practice  
+
+```{r}
+
+```  
+
+```{r}
+
+```  
+
+```{r}
+
+```  
+
+
+
+
