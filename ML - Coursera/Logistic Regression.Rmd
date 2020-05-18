@@ -181,7 +181,8 @@ y값은 0 or 1이기 때문에 이 경우, 0일 확률은 1 - 0.7 = 0.3이 된�
 그렇다면 어떤 결정 경계(decision boundary)를 가지고 분류를 하게 되는걸까?  
 
 y=1 : $h_\theta(x)\ge0.5$  
-y=0 : $h_\theta(x)<0.5 $  
+
+y=0 : $h_\theta(x)<0.5$  
 
 가설의 범위는 0과 1사이이다. probability가 0.5이상이면 1로 간주하겠다는 것이다.  
 이 말은 즉, $\theta^TX>0$과 같은 말이다. 그래프 개형을 보면 0.5이상을 가지는 y범위에 대해 x의 범위는 0이상임을 알 수 있다.  
@@ -650,7 +651,32 @@ p <- ggplot(aes(x = iter,y = cost), data = temp) + geom_line()
 
 p + transition_reveal(iter)
 # ggplotly(p, height = 350, width=600)
-```
+```  
+
+### Visualize the Decision boundary  
+
+```{r}
+plot_x <- c(min(data1$x1)-2,max(data1$x1)+2)
+
+# Calculate the decision boundary line
+plot_y <- (-1/theta[3])*(theta[2]*plot_x+theta[1])
+
+## Calculate slope and intercept
+slope =(plot_y[2]-plot_y[1])/(plot_x[2]-plot_x[1])
+intercept=plot_y[2]-slope*plot_x[2]
+
+ggplot(data1, aes(x=x1, y=x2, col=as.factor(y))) + 
+  geom_point(size=6,alpha=0.6)+
+  ggtitle("scatter plot for Data1")+ 
+  theme_bw() + 
+  scale_color_calc("Y")+
+  theme(axis.text=element_text(size=15),
+        axis.title=element_text(size=15,face="bold"),
+        legend.text=element_text(size=15)) +
+  geom_abline(intercept = intercept, slope = slope, col="purple", lwd = 1)
+```  
+
+
 
 
 ### Comparison gradient descent with glm()  
