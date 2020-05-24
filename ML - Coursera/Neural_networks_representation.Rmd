@@ -1,0 +1,262 @@
+---
+title: "Machine Learning with Coursera"
+author: "Jae Kwan Koo"
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    df_print: paged
+  word_document: default
+  github_document:
+    toc: yes
+    toc_depth: 4
+---  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+# Nueral Networks Representation  
+
+<br>
+<br>
+
+## Model representation 1  
+
+신경망은 뇌속의 뉴런이나 뉴런의 연결망처럼 보이게 만들어 졌다.  
+가설 표현을 설명하기 위해서 뇌속의 단일 뉴런을 살펴보자.  
+<br>
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image1.png")
+
+```  
+
+<br>
+
+`수상돌기(dendrite)` : 다른 위치의 뉴런으로부터 입력을 받는 입력단자  
+`축삭돌기(Axon)` : 다른 뉴런으로 신호를 전달하고 메시지를 전달하는 출력단자  
+
+뉴런은 계산 단위이고, 여러개의 입력 단자로부터 값을 받아 특정 계산을 수행하고 축삭돌기를 통해 출력값을 다른 노드나 뉴런으로 보낸다.  
+
+결국 한 뉴런에서 다른 세포로 신호를 전달하게 되는데, 서로 다른 뉴런과 뉴런 사이에는 시냅스(Synapse)라는 틈이 존재한다.  
+이 틈을 통해 신경전달물질이 이동해서 뉴런간의 신호를 보낼 수 있다.  
+
+예컨대, 작은 전기 펄스를 축삭돌기를 통해서 다른 뉴런에게 보내고, 축삭돌기는 다른 뉴런의 수상돌기에 연결되어 메시지를 받아서 특정 계산을 수행한다.  
+그리고 다른 뉴런에게 이 출삭돌기를 통해 메시지를 다시 보낸다.  
+계산을 수행하여 다른 뉴런에게 메시지를 전달하고 그 결과 다른 뉴런의 입력단자는 그 메시지를 받는 형태인 것이다.  
+
+<br>
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image2.png")
+```  
+
+<br>
+
+* 모델로 사용할 뉴런은 단지 논리적인 단위  
+* 노란 원 : 하나의 뉴런  
+* x,y : parameter vector  
+* $x_0$ : bias 뉴런, bias unit - $x_0=1$, 가독성을 위해 생략하기도 한다.  
+* $\theta$ : 모델의 가중치(witghts), 보통 W라고 표현  
+
+$$
+Sigmoid(logistic)\, activation\,function : g(z)\,=\,{1\over1+e^{-z}}
+$$  
+
+[What is the role of the bias in neural networks?](https://stackoverflow.com/questions/2480650/what-is-the-role-of-the-bias-in-neural-networks)  
+
+<br>
+<br>
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image3.png")
+```
+
+<br>
+
+인공신경망은 여러개의 뉴런 그룹들이 연결된 것  
+
+* 입력 유닛 x1, x2, x3 / x0은 추가해도 되고 안해도 된다.    
+* $a_0=1$ : bias unit  
+
+마지막 레이어에 있는 이 노드는 가설 h(x)을 계산한 값을 출력합니다.
+
+* Input layer : 이 곳에서 feature x1, x2, x3 를 입력받기 때문  
+* Hidden layer : supervised learning에서 training set에 있는 인풋과 아웃풋은 볼 수 있지만 히든 레이어에 있는 값들은 training set에서 볼 수가 없기 때문에 x도 y도 아니기 때문에 히든이라 부름  
+* Output layer : 하나의 뉴런을 갖고 있는데 이 뉴런이 가설(hypothesis)을 계산한 최종 값을 출력하기 때문  
+
+이 예제에는 각각 1개의 input layer, hidden layer, output layer 총 3개 layer가 있다.  
+기본적으로 input layer, output layer가 아닌 것들은 hidden layer이다.  
+
+<br>
+<br>
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image4.png")
+```
+
+<br>
+
+$a_1^{(2)}$ : layer2 (hidden layer)에서의 첫번째 unit의 activation  
+`activation` : unit에서 계산된 output value  
+
+인공신경망은 매트릭스들로 표현된다.  
+$\theta(j)$ : 한 레이어를 다른 레이어로 매핑하는 함수를 조절하는 가중치의 매트릭스  
+
+
+
+신경망의 j번째 레이어에 $s_j$개 유닛이 있고 j+1번째 레이어에 $s_{j+1}$개 유닛이 있는 경우  
+레이어 j에서 j+1로 매핑하는 $θ^{(j)}$ 행렬의 dimension $s_{j+1}$x($s_j$+1)차원 행렬이 된다.  
+
+if layer 1 has 2 input nodes and layer 2 has 4 activation nodes, Dimension of $\theta^{(1)}$ is going to be 4x3 where $s_j=2$ and $s_{j+1}=4$, so $s_{j+1}$x($s_j+1$)=4x3  
+
+$θ^{(2)}$는 파라미터들의 행렬 또는 두번째 레이어 유닛들을 세번째 레이어, 즉 아웃풋 레이어 유닛으로 매핑하는 가중치의 행렬이다.  
+
+인공신경망은 함수 h를 정의하는 것인데, 함수 h는 x를 입력받아 y를 예측하는 함수입니다 그리고 이 가설(hypothesis)은 파라미터들에 의해 조절되는데 파라미터들은 대문자 $\theta$로 표기하고, 우리가 $\theta$를 변화시킨다면 가설(hypothesis) 또한 달라지고, x에서 y로 매핑하는 함수 또한 달라지게 됩니다.  
+
+그럼 어떻게 $\theta$를 정의할 것인지 알아보자  
+
+<br>
+<br>
+
+## Model representaion 2  
+<br>
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image5.png")
+```  
+
+<br>  
+
+sigmoid 함수안의 인자들을 z라고 표현하자.  
+이 z values들은 단지 x0, x1, x2, x3와 가중치들간의 선형 결합이다.  
+
+이 과정을 forward propagation이라고 부른다.  
+왜냐하면 우리는 input unit의 활성에서 시작하고 그 다음, hidden layer에 전진 전파를 하고 hidden layer의 활성을 계산한다음 다시 앞으로 전파아여 output layer의 활성을 계산하기 때문이다. input, hidden 그 다음 output layer으로부터의 활성을 계산하는 과정이다.  
+
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image6.png")
+```  
+
+<br>
+
+이 forward propagation 장면 역시 우리가 neural networks가 하는 일이 어떤 것인지, 왜 그것들이 우리가 non-linear hypotheses를 흥미롭게 배울 수 있게 하는지 이해하도록 도와준다.  
+
+왼편의 그림을 가리고 생각을 해보자. 이제 이 그림은 로지스틱 회귀처럼 보인다.  
+g는 sigmoid activation function이고, 여기서 a0=1이다.  
+
+<br>
+<br>
+
+## Examples and intuitions 1  
+
+### AND  
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image7.png")
+```  
+
+가중치를 다음과 같이 선택하면 x1 and x2의 형태로 h가 나오도록 할 수 있다.  
+
+### OR  
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image8.png")
+```  
+
+이것도 계산해보면 or이라는 것을 알 수 있다.  
+
+## Examples and intuitions 2  
+
+### Negate  
+<br>
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image9.png")
+```  
+
+<br>
+
+반대로 나오는 식도 만들어볼 수 있다.  
+
+만약 x1과 x2둘다 아니라는 식을 만들고 싶으면 x1=x2=0이 되는 것이나 같은 말이다.  
+
+$\theta=[10,-20,-20]^T$일 때, (NOT x1) AND (NOT x2)를 만족하게 된다.  
+<br>
+
+### Put it together - XNOR  
+
+XOR, XNOR은 배타적 논리합, 배타적 부정 논리합이다.  
+
+XOR : 2개의 입력이 서로 같으면 출력은 0, 다르면 1이다.  
+
+|A |B |X |
+|--|--|--|
+|0 |0 |0 |
+|0 |1 |1 |
+|1 |0 |1 |
+|1 |1 |0 |
+
+
+
+XNOR : 2개의 입력이 서로 같으면 출력은 1, 다르면 0이다. XOR에 NOT을 붙인 것과 같다.  
+
+|A |B |X |
+|--|--|--|
+|0 |0 |1 |
+|0 |1 |0 |
+|1 |0 |0 |
+|1 |1 |1 |
+
+
+<br>
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image10.png")
+```
+<br>
+
+AND를 나타내는 것이 $a_1^{(2)}$이고, (NOT x1) AND (NOT x2)를 나타내는 것이 $a_2^{(2)}$이므로 쉽게 계산가능하다. 또한, 가설 h는 or에 의해 얻어진다.  
+
+<br>
+<br>
+
+## Multi-class classification  
+
+<br>
+
+```{r}
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image11.png")
+```  
+
+<br>
+
+
+신경망을 이용해서 하기 위해서는 one vs all의 확장된 방법을 이용해야 합니다
+
+차인지 인식하는 것 뿐만 아니라, 차를 4가지로 분류하고 싶은 것이다.  
+이렇게 분류하기 위해서는 신경망을 구성할 때 출력 레이어에 4개의 유닛을 넣도록 구성하면 된다.  
+
+보행자 분류된 경우 output : [1 0 0 0]  
+자동차 : [0 1 0 0]  
+오토바이 : [0 0 1 0]  
+트럭 : [0 0 0 1]  
+
+
+one vs all에 대한 로지스틱 회귀와 같다. 여기에 4개의 로지스틱 회귀 classifier들이 있고 각각은 4개의 분류중 하나씩을 나타내게 된다.  
+예전에는 우리가 사진에 대한 label을 1, 2, 3, 4와 같은 숫자로 붙였다면 이제는 이미지 $X_i$에 대한 결과를 숫자로 된 라벨 대신 [1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]과 같이 표현하고 $Y_i$라고 할 것 이다.   
+결과적으로 하나의 예제는 ($X_i$ , $Y_i$) 쌍이 될 것  
+
+* Xi는 4가지 분류 중 하나인 이미지  
+* Yi는 해당 이미지의 분류를 나타내는 벡터  
+
+
+
+
+
