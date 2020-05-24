@@ -140,9 +140,7 @@ sigmoid 함수안의 인자들을 z라고 표현하자.
 왜냐하면 우리는 input unit의 활성에서 시작하고 그 다음, hidden layer에 전진 전파를 하고 hidden layer의 활성을 계산한다음 다시 앞으로 전파아여 output layer의 활성을 계산하기 때문이다. input, hidden 그 다음 output layer으로부터의 활성을 계산하는 과정이다.  
 
 
-```{r}
-knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image6.png")
-```  
+
 
 <br>
 
@@ -159,7 +157,7 @@ g는 sigmoid activation function이고, 여기서 a0=1이다.
 ### AND  
 
 ```{r}
-knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image7.png")
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image6.png")
 ```  
 
 가중치를 다음과 같이 선택하면 x1 and x2의 형태로 h가 나오도록 할 수 있다.  
@@ -167,7 +165,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 ### OR  
 
 ```{r}
-knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image8.png")
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image7.png")
 ```  
 
 이것도 계산해보면 or이라는 것을 알 수 있다.  
@@ -178,7 +176,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 <br>
 
 ```{r}
-knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image9.png")
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image8.png")
 ```  
 
 <br>
@@ -218,7 +216,7 @@ XNOR : 2개의 입력이 서로 같으면 출력은 1, 다르면 0이다. XOR에
 <br>
 
 ```{r}
-knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image10.png")
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image9.png")
 ```
 <br>
 
@@ -232,7 +230,7 @@ AND를 나타내는 것이 $a_1^{(2)}$이고, (NOT x1) AND (NOT x2)를 나타내
 <br>
 
 ```{r}
-knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image11.png")
+knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/master/ML%20-%20Coursera/%EC%9D%B4%EB%AF%B8%EC%A7%80/Nueral_Networks_Representation/image10.png")
 ```  
 
 <br>
