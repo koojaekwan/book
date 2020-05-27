@@ -236,7 +236,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/koojaekwan/book/maste
 <br>
 
 
-신경망을 이용해서 하기 위해서는 one vs all의 확장된 방법을 이용해야 합니다
+신경망을 이용해서 하기 위해서는 one vs all의 확장된 방법을 이용해야 한다.  
 
 차인지 인식하는 것 뿐만 아니라, 차를 4가지로 분류하고 싶은 것이다.  
 이렇게 분류하기 위해서는 신경망을 구성할 때 출력 레이어에 4개의 유닛을 넣도록 구성하면 된다.  
