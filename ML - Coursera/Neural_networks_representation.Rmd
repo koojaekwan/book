@@ -255,6 +255,165 @@ one vs all에 대한 로지스틱 회귀와 같다. 여기에 4개의 로지스�
 * Yi는 해당 이미지의 분류를 나타내는 벡터  
 
 
+## Practice  
+
+```{r}
+CostFunction <- function(X, y, Theta, Lambda){
+  m <- length(y)
+  Hypothesis <- 1 / (1 + exp(- X %*% Theta)) # probability that y = 1 on input X
+  J <- (1/m) * sum(- y * log(Hypothesis) - (1 - y) * log(1 - Hypothesis)) # compute J cost
+  reg <- (Lambda / (2 * m)) * sum(Theta[2:length(Theta)] ^ 2)
+  J <- J + reg
+  return(J)
+}
+
+
+GradFunction <- function(X, y, Theta, Lambda){
+  m <- length(y)
+  Hypothesis <- 1 / (1 + exp(- X %*% Theta))
+  Grad <- ((t(X) %*% (Hypothesis - y)) / m) + ((Lambda / m) * c(0,Theta[2:length(Theta)]))
+  return(Grad)
+}
+```  
+
+
+```{r}
+library(R.matlab)
+
+
+ds_data <- readMat("ex3data1.mat")
+ds_weight <- readMat("ex3weights.mat")  
+
+X <- as.matrix(ds_data$X)
+X <- cbind(1, X)
+y <- as.vector(ds_data$y)
+
+theta1 <- as.matrix(ds_weight$Theta1)
+theta2 <- as.matrix(ds_weight$Theta2)
+```  
+
+```{r}
+theta_t <- c(-2, -1, 1, 2)
+X_t <- as.matrix(cbind(1, matrix(1:15, 5,3)/10))
+y_t <- c(1, 0, 1, 0, 1) >= 0.5
+lambda_t <- 3
+
+
+
+
+CostFunction(X_t, y_t, theta_t, lambda_t)
+GradFunction(X_t, y_t, theta_t, lambda_t)
+
+
+
+
+# Train Logistic Regression
+TrainLogisticReg <- function(X, y, Lambda){
+  ifelse(is.vector(X), initial_theta <- c(0,0), initial_theta <- rep(0, ncol(X))) # initialize theta
+  ifelse(is.vector(X), m <- length(X), m <- nrow(X))
+  
+  assign("m", m, .GlobalEnv)
+  
+  LogisticRec <- optim(par = initial_theta,
+                       fn = CostFunction,
+                       gr = GradFunction,
+                       method = "BFGS",
+                       X = X,
+                       y = y,
+                       Lambda = Lambda)
+  
+  print(paste("J", LogisticRec$value))
+  return(LogisticRec$par)
+}
+
+theta_result <- TrainLogisticReg(X, y, 0)
+
+
+
+# One vs All function
+# note that we already had 1 to X
+OneVsAllFunction <- function(X, y, Lambda){
+  
+  y_cat <- unique(y) # determine how many categories we have within y
+  Predict_result <- matrix(nrow = nrow(X), ncol = length(y_cat)) # create a matrix to put the Y prediction
+  colnames(Predict_result) <- y_cat # put the category names
+  
+  Theta_result <- matrix(nrow = length(y_cat), ncol = ncol(X)) # +1 for theta 0 already counted
+  
+  row.names(Theta_result) <- y_cat
+  
+  for(i in 1:length(y_cat)){ 
+    y_temp <- rep(0, length(y))
+    
+    for(j in 1:length(y)){ #loop to create the 1 | 0  y_temp
+      ifelse(y[j] == y_cat[i], y_temp[j] <- 1, y_temp[j] <- 0)
+    } 
+    
+    Theta_temp <- TrainLogisticReg(X, y_temp, Lambda)
+    Predict_result[ ,i] <- 1 / (1 + exp(- X %*% Theta_temp)) #probability that y = 1 on input X
+    Theta_result[i, ] <- Theta_temp 
+    
+  }
+  
+  Predict_result <- as.data.frame(Predict_result)
+  # check which column has the max result
+  Predict_result$Final <- max.col(Predict_result[ ,1:length(y_cat)], ties.method = "first")
+  for (k in 1 : m){
+    a <- Predict_result$Final[k]
+    Predict_result$Final[k] <- colnames(Predict_result)[as.numeric(a)]
+    
+  }
+  
+  Result <- list("Predict" = Predict_result, "Theta" = Theta_result) # create list of the result
+  return(Result)
+  
+}
+
+
+lambda <- 0.1
+test <- OneVsAllFunction(X, y, lambda)
+
+table(test$Predict$Final, y)
+
+mean(test$Predict$Final == y)
+
+
+
+##
+
+#PREDICT Predict the label of an input given a trained neural network
+#%   p = PREDICT(Theta1, Theta2, X) outputs the predicted label of X given the
+#%   trained weights of a neural network (Theta1, Theta2)
+Theta1 <- ds_weight$Theta1
+Theta2 <- ds_weight$Theta2
+
+predict <- function(Theta1, Theta2, X){
+  # Useful values
+  ifelse(is.vector(X), m <- length(X), m <- nrow(X))
+  p <- rep(0, nrow(X))
+  
+  # the +1 on X are already taken into account
+  A1 <- 1 / (1 + exp(- X %*% t(Theta1)))
+  A1 <- cbind(1, A1)
+  A2 <- 1 / (1 + exp(- A1 %*% t(Theta2)))
+  p <- apply(A2, 1, FUN= "which.max")
+  return(p)
+}
+
+
+pred <- predict(Theta1, Theta2, X)
+
+
+print(mean(pred == y))
+```  
+
+## Refer  
+
+[R 실습 코드](http://rstudio-pubs-static.s3.amazonaws.com/339822_0b37bdc0fc9f4317bfd38b697aace71b.html)  
+
+
+
+
 
 
 
