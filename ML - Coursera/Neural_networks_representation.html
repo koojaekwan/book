@@ -467,22 +467,119 @@ g는 sigmoid activation function이고, 여기서 a0=1이다.</p>
 </div>
 <div id="practice" class="section level2">
 <h2>Practice</h2>
-<pre><code>## Warning: package 'R.matlab' was built under R version 3.6.3</code></pre>
+<pre class="r"><code>CostFunction &lt;- function(X, y, Theta, Lambda){
+  m &lt;- length(y)
+  Hypothesis &lt;- 1 / (1 + exp(- X %*% Theta)) # probability that y = 1 on input X
+  J &lt;- (1/m) * sum(- y * log(Hypothesis) - (1 - y) * log(1 - Hypothesis)) # compute J cost
+  reg &lt;- (Lambda / (2 * m)) * sum(Theta[2:length(Theta)] ^ 2)
+  J &lt;- J + reg
+  return(J)
+}
+
+
+GradFunction &lt;- function(X, y, Theta, Lambda){
+  m &lt;- length(y)
+  Hypothesis &lt;- 1 / (1 + exp(- X %*% Theta))
+  Grad &lt;- ((t(X) %*% (Hypothesis - y)) / m) + ((Lambda / m) * c(0,Theta[2:length(Theta)]))
+  return(Grad)
+}</code></pre>
+<pre class="r"><code>library(R.matlab)</code></pre>
 <pre><code>## R.matlab v3.6.2 (2018-09-26) successfully loaded. See ?R.matlab for help.</code></pre>
 <pre><code>## 
 ## Attaching package: 'R.matlab'</code></pre>
 <pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     getOption, isOpen</code></pre>
-<pre><code>## Warning in readMat(&quot;ex3data1.mat&quot;): strings not representable in native
-## encoding will be translated to UTF-8</code></pre>
+<pre class="r"><code>ds_data &lt;- readMat(&quot;ex3data1.mat&quot;)</code></pre>
+<pre><code>## Warning in readMat(&quot;ex3data1.mat&quot;): strings not representable in native encoding
+## will be translated to UTF-8</code></pre>
+<pre class="r"><code>ds_weight &lt;- readMat(&quot;ex3weights.mat&quot;)  
+
+X &lt;- as.matrix(ds_data$X)
+X &lt;- cbind(1, X)
+y &lt;- as.vector(ds_data$y)
+
+theta1 &lt;- as.matrix(ds_weight$Theta1)
+theta2 &lt;- as.matrix(ds_weight$Theta2)</code></pre>
+<pre class="r"><code>theta_t &lt;- c(-2, -1, 1, 2)
+X_t &lt;- as.matrix(cbind(1, matrix(1:15, 5,3)/10))
+y_t &lt;- c(1, 0, 1, 0, 1) &gt;= 0.5
+lambda_t &lt;- 3
+
+
+
+
+CostFunction(X_t, y_t, theta_t, lambda_t)</code></pre>
 <pre><code>## [1] 2.534819</code></pre>
+<pre class="r"><code>GradFunction(X_t, y_t, theta_t, lambda_t)</code></pre>
 <pre><code>##            [,1]
 ## [1,]  0.1465614
 ## [2,] -0.5485584
 ## [3,]  0.7247223
 ## [4,]  1.3980030</code></pre>
+<pre class="r"><code># Train Logistic Regression
+TrainLogisticReg &lt;- function(X, y, Lambda){
+  ifelse(is.vector(X), initial_theta &lt;- c(0,0), initial_theta &lt;- rep(0, ncol(X))) # initialize theta
+  ifelse(is.vector(X), m &lt;- length(X), m &lt;- nrow(X))
+  
+  assign(&quot;m&quot;, m, .GlobalEnv)
+  
+  LogisticRec &lt;- optim(par = initial_theta,
+                       fn = CostFunction,
+                       gr = GradFunction,
+                       method = &quot;BFGS&quot;,
+                       X = X,
+                       y = y,
+                       Lambda = Lambda)
+  
+  print(paste(&quot;J&quot;, LogisticRec$value))
+  return(LogisticRec$par)
+}
+
+theta_result &lt;- TrainLogisticReg(X, y, 0)</code></pre>
 <pre><code>## [1] &quot;J -78.1116869389638&quot;</code></pre>
+<pre class="r"><code># One vs All function
+# note that we already had 1 to X
+OneVsAllFunction &lt;- function(X, y, Lambda){
+  
+  y_cat &lt;- unique(y) # determine how many categories we have within y
+  Predict_result &lt;- matrix(nrow = nrow(X), ncol = length(y_cat)) # create a matrix to put the Y prediction
+  colnames(Predict_result) &lt;- y_cat # put the category names
+  
+  Theta_result &lt;- matrix(nrow = length(y_cat), ncol = ncol(X)) # +1 for theta 0 already counted
+  
+  row.names(Theta_result) &lt;- y_cat
+  
+  for(i in 1:length(y_cat)){ 
+    y_temp &lt;- rep(0, length(y))
+    
+    for(j in 1:length(y)){ #loop to create the 1 | 0  y_temp
+      ifelse(y[j] == y_cat[i], y_temp[j] &lt;- 1, y_temp[j] &lt;- 0)
+    } 
+    
+    Theta_temp &lt;- TrainLogisticReg(X, y_temp, Lambda)
+    Predict_result[ ,i] &lt;- 1 / (1 + exp(- X %*% Theta_temp)) #probability that y = 1 on input X
+    Theta_result[i, ] &lt;- Theta_temp 
+    
+  }
+  
+  Predict_result &lt;- as.data.frame(Predict_result)
+  # check which column has the max result
+  Predict_result$Final &lt;- max.col(Predict_result[ ,1:length(y_cat)], ties.method = &quot;first&quot;)
+  for (k in 1 : m){
+    a &lt;- Predict_result$Final[k]
+    Predict_result$Final[k] &lt;- colnames(Predict_result)[as.numeric(a)]
+    
+  }
+  
+  Result &lt;- list(&quot;Predict&quot; = Predict_result, &quot;Theta&quot; = Theta_result) # create list of the result
+  return(Result)
+  
+}
+
+
+lambda &lt;- 0.1
+test &lt;- OneVsAllFunction(X, y, lambda)</code></pre>
 <pre><code>## [1] &quot;J 0.0103494707209181&quot;
 ## [1] &quot;J 0.0148622440173195&quot;
 ## [1] &quot;J 0.0567794334766962&quot;
@@ -493,6 +590,7 @@ g는 sigmoid activation function이고, 여기서 a0=1이다.</p>
 ## [1] &quot;J 0.0349697783660666&quot;
 ## [1] &quot;J 0.0833928138934852&quot;
 ## [1] &quot;J 0.0770231714049791&quot;</code></pre>
+<pre class="r"><code>table(test$Predict$Final, y)</code></pre>
 <pre><code>##     y
 ##        1   2   3   4   5   6   7   8   9  10
 ##   1  496   2   2   1   1   0   1   4   1   0
@@ -505,7 +603,34 @@ g는 sigmoid activation function이고, 여기서 a0=1이다.</p>
 ##   7    0   3   6   0   1   0 480   2  12   0
 ##   8    1  11   3   4   9   1   1 461   4   1
 ##   9    0   3   6  12   6   0  10   6 463   0</code></pre>
+<pre class="r"><code>mean(test$Predict$Final == y)</code></pre>
 <pre><code>## [1] 0.9504</code></pre>
+<pre class="r"><code>##
+
+#PREDICT Predict the label of an input given a trained neural network
+#%   p = PREDICT(Theta1, Theta2, X) outputs the predicted label of X given the
+#%   trained weights of a neural network (Theta1, Theta2)
+Theta1 &lt;- ds_weight$Theta1
+Theta2 &lt;- ds_weight$Theta2
+
+predict &lt;- function(Theta1, Theta2, X){
+  # Useful values
+  ifelse(is.vector(X), m &lt;- length(X), m &lt;- nrow(X))
+  p &lt;- rep(0, nrow(X))
+  
+  # the +1 on X are already taken into account
+  A1 &lt;- 1 / (1 + exp(- X %*% t(Theta1)))
+  A1 &lt;- cbind(1, A1)
+  A2 &lt;- 1 / (1 + exp(- A1 %*% t(Theta2)))
+  p &lt;- apply(A2, 1, FUN= &quot;which.max&quot;)
+  return(p)
+}
+
+
+pred &lt;- predict(Theta1, Theta2, X)
+
+
+print(mean(pred == y))</code></pre>
 <pre><code>## [1] 0.9752</code></pre>
 </div>
 <div id="refer" class="section level2">
