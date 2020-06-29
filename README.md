@@ -21,4 +21,8 @@
 
 [국가](https://koojaekwan.github.io/book/%EC%8B%9C%EB%AF%BC%EC%9D%98%20%EA%B5%90%EC%96%91/%EA%B5%AD%EA%B0%80/%EC%8B%9C%EB%AF%BC%EC%9D%98-%EA%B5%90%EC%96%91---%EA%B5%AD%EA%B0%80.html)  
 
+## 엔트로피  
+
+[1부 세계관의 변화](https://koojaekwan.github.io/book/%EC%97%94%ED%8A%B8%EB%A1%9C%ED%94%BC/1%EB%B6%80_%EC%84%B8%EA%B3%84%EA%B4%80%EC%9D%98_%EB%B3%80%ED%99%94.html)
+
 
