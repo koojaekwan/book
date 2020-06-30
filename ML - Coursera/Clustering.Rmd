@@ -61,7 +61,7 @@ include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/�
 
 ## K-means algorithm  
 
-![your caption here](https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/kmeans.gif)
+![your caption here](https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/kmeans.gif)  
 
 데이터를 2개의 클러스터로 나누려고 한다.  
 
