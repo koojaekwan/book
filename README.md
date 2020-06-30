@@ -13,7 +13,9 @@
 
 [Regularization](https://koojaekwan.github.io/book/ML%20-%20Coursera/Regularization.html)  
 
-[Nueral Networks Representation](https://koojaekwan.github.io/book/ML%20-%20Coursera/Neural_networks_representation.html)
+[Nueral Networks Representation](https://koojaekwan.github.io/book/ML%20-%20Coursera/Neural_networks_representation.html)  
+
+[K means](https://koojaekwan.github.io/book/ML%20-%20Coursera/Clustering.html)
 
 ## 시민의 교양  
 
