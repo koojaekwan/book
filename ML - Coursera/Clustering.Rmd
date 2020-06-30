@@ -9,7 +9,6 @@ output:
     toc: yes
     toc_depth: 4
     toc_float: yes
-    df_print: paged
   word_document: default
   github_document:
     toc: yes
@@ -17,8 +16,8 @@ output:
 ---  
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.height = 5, cache=F, dpi = 300, dev = "png")
+```  
 
 
 # Clustering  
@@ -29,7 +28,8 @@ knitr::opts_chunk$set(echo = TRUE)
 <br>
 
 ```{r}
-
+library(knitr)
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image1.png")
 ```  
 
 <br>
@@ -39,7 +39,7 @@ knitr::opts_chunk$set(echo = TRUE)
 <br>
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image2.png")
 ```
 
 반대로, 비지도 학습에서는 label이 없다.  
@@ -61,9 +61,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## K-means algorithm  
 
-```{r}
-# gif
-```  
+![your caption here](https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/kmeans.gif)
 
 데이터를 2개의 클러스터로 나누려고 한다.  
 
@@ -76,7 +74,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image3.png")
 ```  
 
 K means algorithm은 2가지 input을 가진다.  
@@ -94,7 +92,7 @@ K means algorithm은 2가지 input을 가진다.
 <br>
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image4.png")
 ```  
 
 1. 무작위로 K개의 cluster centroids $\mu_1$,...,$\mu_K$를 정한다.  
@@ -107,7 +105,7 @@ $\mu_K$ : 클러스터 K에 할당된 점들의 평균
 
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image5.png")
 ```  
 
 K means algorithm의 다른 일반적인 적용(잘 분리되지 않은 클러스터)에 대해 살펴보자.  
@@ -132,7 +130,7 @@ K-means 또한 우리가 최소화를 해야할 optimization objective 또는 co
 <br>
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/add1.png")
 ```
 
 <br>
@@ -149,7 +147,18 @@ K-means 또한 우리가 최소화를 해야할 optimization objective 또는 co
 <br>
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/add2.png")
+```  
 
+
+
+<br>
+<br>
+
+## Random initialization  
+
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image6.png")
 ```  
 
 <br>
@@ -160,16 +169,6 @@ K-means 또한 우리가 최소화를 해야할 optimization objective 또는 co
 3.K개의 cluster centroid각각을 각 그룹 내의 평균점으로 할당한다.  
 
 <br>
-<br>
-
-## Random initialization  
-
-```{r}
-
-```  
-
-<br>
-
 
 K가  M보다 작도록 설정되어야 한다. K-means를 관측치보다 같거나 더 많은 수의 K로 실행한다면 이상할 것이다.  
 
@@ -179,7 +178,7 @@ cluster centroids를 초기화하기 위해 무작위로 2개의 examples를 선
 <br>
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image7.png")
 ```  
 
 
@@ -194,7 +193,7 @@ K-means는 결국 다른 solution을 가질 수 있는데, 특히 실제로 loca
 <br>
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image8.png")
 ```  
 
 이 과정을 100번 반복한 뒤, 데이터를 clustering한 수백 가지 방법 중 하나를 선택하면 된다. 이 방법은 가장 낮은 cost를 가지고 있다.  
@@ -208,7 +207,7 @@ k갯수가 2~10개 정도이면, 랜덤 초기화를 여러번 수행하면 더 
 ## Choosing the number of clusters  
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image9.png")
 ```  
 
 k를 자동으로 선택하는 방법은 별로 없고, 시각화를 보거나 output을 통해 보는 수동으로 선택한다.  
@@ -226,7 +225,7 @@ elbow method에 대해 요약하자면, 그려볼 가치는 있지만 꼭 필요
 
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image10.png")
 ```  
 
 k를 3으로 선택할 때와 5로 선택할 때는 위와 같다.  
@@ -239,44 +238,54 @@ k를 3으로 선택할 때와 5로 선택할 때는 위와 같다.
 ## Practice  
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image11.png")
 ```
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image12.png")
 ```
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image13.png")
 ```
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image14.png")
 ```
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image15.png")
 ```
 
 
 ## Exercise
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image16.png")
 ```
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image17.png")
 ```
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image18.png")
 ```
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image19.png")
 ```
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image20.png")
 ```
 
 
