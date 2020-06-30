@@ -1,0 +1,287 @@
+---
+title: "Machine Learning with Coursera"
+author: "Jae Kwan Koo"
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    df_print: paged
+  word_document: default
+  github_document:
+    toc: yes
+    toc_depth: 4
+---  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Clustering  
+
+## Unsupervised learning introduction  
+
+### 비지도 학습이란?  
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+지도 학습 데이터가 주어졌을 때(label이 존재), 목표는 두 그룹의 경계선을 찾는 것이다. 이 경우, 데이터를 가설에 맞추어 fitting한다.  
+
+<br>
+
+```{r}
+
+```
+
+반대로, 비지도 학습에서는 label이 없다.  
+비지도 학습에서 label이 없는 훈련 집합에 algorithm을 적용하여 어떤 구조를 찾도록 하는 것이다.  
+
+여기서는 data는 algorithm에 의해 두 개의 cluster로 구성되어있고, 이는 clustering algorithm이다.  
+
+<br>
+
+1. 시장을 세분화해 마케팅 전략을 세울 때, 고객의 데이터베이스를 가지고 고객을 서로 다른 몇 개의 그룹으로 분류  
+각각의 그룹에게 다른 물품을 판매하거나 다른 서비스 가능  
+
+2. 소셜 네트워크 분석을 통해 사람들의 소셜 네트워크를 조사  
+페이스북이나 Google+ 같은 SNS, 혹은 사람들이 이메일을 자주 주고받는 대상에 관한 정보를 보고 그룹 속에서 일관성을 찾는다  
+네트워크 안에서 어떤 사람들이 같은 그룹에 있는지 찾는다.  
+
+<br>
+<br>
+
+## K-means algorithm  
+
+```{r}
+# gif
+```  
+
+데이터를 2개의 클러스터로 나누려고 한다.  
+
+1. 초기에 cluster centroid라고 불리는 2개의 점을 무작위로 찍는다  
+2. 각 cluster centroid에 더 가까운 데이터들을 그 점의 색으로 할당한다.  
+3. 각각 같은 색의 cluster의 중심으로 cluster centroid를 옮긴다.  
+4. 2~3을 반복하다가 더이상 변화가 없으면 수렴했다고 판단한다.  
+
+<br>
+
+
+```{r}
+
+```  
+
+K means algorithm은 2가지 input을 가진다.  
+
+* K : 데이터에서 찾기를 원하는 클러스터의 수  
+    * 나중에 k를 선택하는 방법에 대해 생각하자  
+    
+* unlabeled training set  
+    * we don't have the labels Y anymore  
+    
+<br>
+
+비지도 학습에서는 $x_0=1$을 고려하지 않고 삭제한다. (n+1 dimensions이 아닌 n demiensions)  
+
+<br>
+
+```{r}
+
+```  
+
+1. 무작위로 K개의 cluster centroids $\mu_1$,...,$\mu_K$를 정한다.  
+2. training set의 갯수 m만큼 반복한다. 반복의 내용은 아래와 같다.  
+$c^{(i)}$ : $x^{(i)}$에 가까운 cluster centroid의 index  
+3. K개 만큼 반복한다. 반복의 내용은 아래와 같다.  
+$\mu_K$ : 클러스터 K에 할당된 점들의 평균  
+
+<br>
+
+
+```{r}
+
+```  
+
+K means algorithm의 다른 일반적인 적용(잘 분리되지 않은 클러스터)에 대해 살펴보자.  
+
+잘 분리된 클러스터가 없을 수 있는 데이터 집합에서 K means를 적용하는 경우는 흔히 일어난다. T-shirt size의 예시를 살펴보자.  
+
+내가 작은 사이즈, 중간 사이즈, 큰 사이즈의 티셔츠를 디자인하고 판매하고 싶다고 하자. 그러면 내 작은 것을 얼마나 크게 만들어야 할까? 미디엄 사이즈는 얼마나 커야 할까? 그리고 내 큰 티셔츠를 얼마나 크게 만들어야 할까.  
+
+K means algorithm을 실행하여 각각 cluster로 그룹화하고, 각 그룹에서의 집단을 보고 각 집단에 잘 맞도록 디자인하는 것이 좋겠다.  
+
+<br>
+<br>
+
+## Optimization objective  
+
+K-means 또한 우리가 최소화를 해야할 optimization objective 또는 cost function을 가진다.  
+
+
+1. 디버그하는데 도움을 준다.  
+2. local optima를 피하고 더나은 cost를 찾는데 도움을 준다.  
+
+<br>
+
+```{r}
+
+```
+
+<br>
+
+* $c^{(i)}$ : $x^{(i)}$가 현재 할당된 클러스터의 인덱스  
+
+* $\mu_K$ : 클러스터 k의 중심  
+
+* $\mu_{c^{(i)}}$ : $x^{(i)}$가 할당된 클러스터의 중심  
+
+
+이 비용함수 J를 최소화하기 위해 C와 mu를 찾는데, 이 비용함수를 떄때로 dirtortion이라고 부르기도 한다.  
+
+<br>
+
+```{r}
+
+```  
+
+<br>
+
+1. K개의 cluster centroids를 랜덤하게 초기화한다.  
+
+2.관측치 갯수만큼 가까운 것들을 각각cluster centroid로 배정한다.  
+3.K개의 cluster centroid각각을 각 그룹 내의 평균점으로 할당한다.  
+
+<br>
+<br>
+
+## Random initialization  
+
+```{r}
+
+```  
+
+<br>
+
+
+K가  M보다 작도록 설정되어야 한다. K-means를 관측치보다 같거나 더 많은 수의 K로 실행한다면 이상할 것이다.  
+
+K가 2인 경우를 생각하고 두개의 클러스터를 찾아보자.  
+cluster centroids를 초기화하기 위해 무작위로 2개의 examples를 선택했다. 
+
+<br>
+
+```{r}
+
+```  
+
+
+<br>
+
+랜덤하게 선택되는 cluster centroids에 따라서 cluster들의 수렴 결과가 달라진다.  
+K-means는 결국 다른 solution을 가질 수 있는데, 특히 실제로 local optima로 끝날 수 있다.  
+
+가능한 최상의 cluster을 찾을 확률을 높이려면, 다중 무작위 초기화를 시도하는 것이다.  
+그래서, K-means를 한 번 초기화하는 대신, 여러 번 초기화하고 여러 번 실행하는 것이다.  
+
+<br>
+
+```{r}
+
+```  
+
+이 과정을 100번 반복한 뒤, 데이터를 clustering한 수백 가지 방법 중 하나를 선택하면 된다. 이 방법은 가장 낮은 cost를 가지고 있다.  
+k갯수가 2~10개 정도이면, 랜덤 초기화를 여러번 수행하면 더 나은 로컬 최적화를 찾을 수도 있지만, k가 10보다 훨씬크면, 다중 랜덤 초기화를  사용하는 것이 큰 차이를 만들 가능성이 적다.  
+
+<br>
+<br>
+
+
+
+## Choosing the number of clusters  
+
+```{r}
+
+```  
+
+k를 자동으로 선택하는 방법은 별로 없고, 시각화를 보거나 output을 통해 보는 수동으로 선택한다.  
+
+그러면 어떻게 cluster 갯수를 선택할 것인가?  
+
+k에 따른 cost의 그래프에서 elbow의 지점에 해당하는 k를 선택하면 된다.  
+왼쪽그림에서는 k=3을 선택하게 된다.  
+
+elbow method를 이용하면 모호하고 깔끔하지 않다는 단점도 있다.  
+또, 오른쪽 그림같은 경우 elbow의 위치가 분명하지 않다. 그래서 클러스터의 갯수를 선택하기 어렵다.  
+
+elbow method에 대해 요약하자면, 그려볼 가치는 있지만 꼭 필요하지는 않다.  
+
+
+
+```{r}
+
+```  
+
+k를 3으로 선택할 때와 5로 선택할 때는 위와 같다.  
+이것은 단지 티셔츠 사업의 관점에서 생각해보고 클러스터의 갯수를 생각해보는 것이다.  
+
+
+
+
+
+## Practice  
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+## Exercise
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+## Refer  
+
+[Image Resize](https://www.birme.net/?target_width=600&target_height=450)  
+[Image gif in r(magick)](https://stackoverflow.com/questions/53683709/create-gif-or-video-from-external-jpg-in-r)  
+
