@@ -25,4 +25,5 @@
 
 [1부 세계관의 변화](https://koojaekwan.github.io/book/%EC%97%94%ED%8A%B8%EB%A1%9C%ED%94%BC/1%EB%B6%80_%EC%84%B8%EA%B3%84%EA%B4%80%EC%9D%98_%EB%B3%80%ED%99%94.html)
 
+[2부 엔트로피 법칙](https://koojaekwan.github.io/book/%EC%97%94%ED%8A%B8%EB%A1%9C%ED%94%BC/2%EB%B6%80_%EC%97%94%ED%8A%B8%EB%A1%9C%ED%94%BC_%EB%B2%95%EC%B9%99.html)
 
