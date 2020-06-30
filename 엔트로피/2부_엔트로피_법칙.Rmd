@@ -19,7 +19,7 @@ output:
 knitr::opts_chunk$set(echo = F)
 ```  
 
-# 제 1부 엔트로피 법칙  
+# 제 2부 엔트로피 법칙  
 
 ## 엔트로피 법칙  
 
