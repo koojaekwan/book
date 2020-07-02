@@ -142,7 +142,7 @@ include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/�
 * $\mu_{c^{(i)}}$ : $x^{(i)}$가 할당된 클러스터의 중심  
 
 
-이 비용함수 J를 최소화하기 위해 C와 mu를 찾는데, 이 비용함수를 떄때로 dirtortion이라고 부르기도 한다.  
+이 비용함수 J를 최소화하기 위해 C와 mu를 찾는데, 이 비용함수를 떄때로 distortion이라고 부르기도 한다.  
 
 <br>
 
