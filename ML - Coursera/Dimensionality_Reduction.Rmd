@@ -1,0 +1,318 @@
+---
+title: "Machine Learning with Coursera"
+author: "Jae Kwan Koo"
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  word_document: default
+  github_document:
+    toc: yes
+    toc_depth: 4
+---  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.height = 5, cache=F, dpi = 300, dev = "png")
+```
+
+
+# Dimensionality Reduction  
+
+## Motivation 1 : Data Compression  
+
+차원을 줄이고 싶은 몇 가지 이유가 있는데,  
+그 중 하나는 `데이터 압축` : 데이터를 압축하여 컴퓨터의 메모리나 디스크 공간을 덜 소비하게 하고 학습 알고리즘을 빠르게 할 수 있게 한다.  
+
+<br>
+
+예컨대, 무수히 많은 기능을 내가 가지고 있다고 하면 내가 어떤 기능을 가지고 있는지 정확히 추적하는 것을 놓치기 쉽다.  
+
+때로는 몇 가의 다른 엔지니어링 팀이 있을 수 있고, 한 개의 엔지니어링 팀이 200개의 기능을 제공할 수도 있고,...  
+
+이런 중복되는 기능을 원하지 않는다. 데이터를 2차원이 아닌 1차원으로 줄일 수 있다면 중복성을 줄일 수 있게 된다.  
+
+
+
+```{r}
+
+```
+
+<br>
+
+만약 여기 그래프 위의 선에 모든 원본 예시를 투영함으로써 원래 데이터셋의 근사치를 얻을 수 있다면, 단지 한 개의 숫자로 각각의 위치를 표현하는 것  
+
+이렇게 하면 메모리 요구 사항이나 공간 요구 사항, 또는 데이터를 저장하는 방법에 대한 요구 사항이 절반으로 줄어든다.  
+
+
+```{r}
+
+```
+
+<br>
+
+좀 더 일반적인 차원 감소는 우리가 축소하고 싶은 1000차원 데이터가 있을 수 있는데, 슬라이드에 표시할 수 있는 한계 때문에, 나는 3D->2D or 2D->1D로 예시를 사용  
+
+마찬가지로, 3차원 데이터도 2차원으로 표현할 수 있음  
+
+
+## Motivation 2 : Data Visualization  
+
+데이터 차원을 줄이는 이유 두번째는 더 잘 이해할 수 있도록 `시각화`하는 것이다.  
+많은 ML의 적용에서 시각화는 효과적인 학습 알고리즘 발전에 도움을 준다.  
+
+```{r}
+
+```
+
+<br>
+
+이 데이터를 어떻게 시각화할 것인가?  
+feature가 50개라면, 50차원을 그리는 것은 매우 어렵다.  
+
+차원 축소를 이용하면, 벡터로 대표되는 각 나라들 대신, z라는 다른 표현을 생각해 낼 수 있다고 하자. 이것은 2차원이다.  
+
+```{r}
+
+```
+
+<br>
+
+
+국가들을 2-dimension의 데이터 포인트로 찍고, Z1축은 국가 전체의 GDP라고 보고, Z2축을 인당 GDP라고 할 수 있을 것이다.  
+
+전체 데이터를 사용했을 때보다 약간의 설명력이 떨어지지만, 해석의 용이함이 있다.  
+
+
+<br>
+<br>
+
+## Principal Component Analysis problem formulation  
+
+```{r}
+```  
+
+<br>
+
+2차원->1차원  
+
+데이터를 투영할 선을 찾고 싶은데, 이 선은 데이터를 잘 투영할 것 같은 선이다.(이 선을 잘 찾고도 싶음)  
+
+1,3사분면을 지나는 선에 대해 데이터를 투영하면 짧다. 데이터와 선 길이의 제곱합이 최소화되도록하는 데이터를 투영할 수 있는 선이다.(데이터와 선의 길이를 segment(projection error)라고 함)  
+비교를 위해 그은 짧은 선은 projection error가 매우 크다. 따라서 PCA에서 2,4사분면을 지나는 선이 아닌 1,3사분면을 지나는 선을 선택하게 된다.  
+
+PCA를 적용하기 전에 feature scaling을 적용해야 한다.  
+
+
+
+```{r}
+```  
+
+<br>
+
+PCA의 목표가 데이터를 2차원->1차원으로 줄이는 것이라고 하면,  
+데이터를 투영할 방향인 u1벡터를 찾으면 된다.  
+
+부호는 상관없는데 어떤 상수를 곱하면 u1의 반대 방향으로도 갈 수 있다.  
+이전의 예처럼 투영할 선을 정의하기 위한 것이다.  
+
+3차원을 2차원으로 줄이는 예에서는 u1, u2벡터를 찾게 될 것이다.  
+우리가 할 일은 데이터를 u1, u2에 의해 생긴 공간에 투영하는 것  
+
+PCA에서는 이런 방식으로 데이터를 투영하게 되어 projection distance를 최소화하는 것이다.  
+
+
+GIF  
+
+<br>
+
+PCA와 linear regression의 차이는 residual과 projection error의 개념을 이해하면 된다.  
+
+3D->2D인 예를 보자.  
+데이터를 투영할 수 있는 u1와 u2의 두 방향을 찾고 싶다.  
+내가 가진 것은 x1, x2, x3라는 세 가지 변수를 가지고 있는데, 이 모든 것이 똑같이 취급된다는 것이다. 이 모든 것들은 대칭적으로 취급되고 내가 예측하려는 특별한 변수 y는 없다.  
+
+<br>
+<br>
+
+
+## Principal Component Analysis algorithm  
+
+
+```{r}
+```  
+
+<br>
+
+각 관측치에서 평균을 빼면 중심을 0으로 만들 수 있고, 표준편차로 나누어 각 변수별 단위를 없애준다.  
+
+이런 전처리를 한 뒤, PCA를 적용한다.  
+
+
+
+```{r}
+```  
+
+<br>
+
+projection error가 최소가 되는 u1, u2를 찾는 것이다.  
+1차원에 투영되는 왼편의 그림을 생각한다면, z1은 실수이다. z1은 여기서 첫번째 component를 일컫는다.  
+
+
+
+3D->2D를 생각해보자.  
+
+여기서 PCA가 해야 할 일은 두 가지를 계산하는 방법을 알아야 한다.  
+
+1. u1과 u2를 계산  
+2. Z를 계산  
+
+
+
+```{r}
+```
+
+```{r}
+```  
+
+<br>  
+
+```{r}
+```
+
+n-dim에서 k-dim으로 축소하는 과정이다.  
+먼저 covariance matrix를 계산한뒤 SVD를 시행한다.  
+
+* U : orthogonal such as $U^tU=I$, $UU^t\neq I$  
+* D = diag($d_1$,...,$d_n$) such as $d_1 \ge d_2 \ge...\ge d_p \ge 0$ : singular values of X  
+
+* V : orthogonal such as $V^tV=VV^t=I$  
+
+$$
+Z_j = Xv_j = d_ju_j \ :\  j-th\  principal\ component\  of\  X
+$$  
+이라고 보통 사용. 여기서는 위의 V가 U이다.  
+
+$$
+z = u_{reduce}^t \times x
+$$  
+
+이렇게 구해진 u들은 prediction error를 최소화하고 z는 그 위의 포인트  
+
+<br>
+<br>
+
+
+## Reconstruction from compressed representation  
+
+차원이 이 압축된 표현형을 '압축 해제'해서 압축 전의 고차원 데이터를 근사적으로 얻을 수 있을 것  
+예컨대, 100차원의 표현형 zi 가 주어진 상태에서, 원래의 1000차원 값인 xi를 어떻게 되돌려 놓냐는 문제  
+
+```{r}
+
+```
+
+<br>
+
+실수 z1 하나만을 사용해서, 1차원 평면에서 각 점들의 위치를 나타낸 것을 어떤 z1이 주어졌을 때, 이를 2차원 공간으로 복원해보자  
+다시 말해, 1차원 실수 인 z가 주어졌을 때, 여기에 대응하는 2차원의 근사값 x를 찾아 원래에 가깝게 복원해내는 일이 가능한가?  
+
+x에 대해 식을 정리하면 된다.  
+
+$$
+X_{approx} = U_{reduce}Z
+$$
+
+PCA의 의도는, 투영오차(projection error)의 제곱값이 너무 크지 않도록 해서, x근사값이 z를 유도하는 데 쓰였던 원래 x와 가깝도록 하는 것  
+압축-복원과정을 거치면 초록색 선 위에 투영된 점들을 얻게 된다.  
+
+원래 데이터의 **'근사값'**을 얻는데, 이 과정을 **"복원(reconstruction)"**이라고 한다.  
+원래의 값 x를 압축된 표현형(representation)으로부터 '복원'한다는 의미  
+
+
+<br>
+<br>
+
+## Choosing the number of principal commponents  
+
+```{r}
+```  
+
+<br>
+
+K : the number of principal conponents  
+
+어떻게 K를 선택할 것인가?  
+
+x와 x의 projection의 거리의 평균 제곱과 전체 변동량의 비율이 0.01이하인 것을 사용한다. 0.05, 0.1등 기준은 어느정도 주관적일 수 있다.  
+
+비율이 1%라고 한다면 전체 데이터의 99%의 변동은 축소된 차원에서 유지가 된다고 볼 수 있다.  
+
+
+```{r}
+```  
+
+<br>
+
+K를 선택하는 방법에는 이전의 방법과 상응하는 방법이 있는데, SVD에서 eigenvalues들을 이용하는 것이다.  
+
+1- 축소된 차원과 전체차원의 eigenvalues의 비율은 이전의 식과 같은 방법으로 생각할 수 있다.  
+
+마찬가지로, 축소된 차원의 eigenvalues와 전체 eigenvalues의 비율은 데이터의 변동량을 설명하게 된다.  
+
+
+```{r}
+```  
+
+<br>
+<br>
+
+
+## Advice for applying PCA  
+
+```{r}
+```  
+
+<br>
+
+어떤 방식으로 PCA를 적용하게 되는지 알아보자.  
+
+PCA를 실행할 때는 cross validation set 또는 test set 데이터가 아닌 데이터의 training set 부분에서만 PCA를 시행해야 한다.  
+
+
+```{r}
+```  
+
+<br>
+
+
+
+
+```{r}
+```  
+
+<br>
+
+PCA가 overfit을 방지해주는 방법은 아니다.  
+overfitting을 방지하기 위해서는 regularization을 대신 사용하는 것이 합당하다.  
+
+
+
+
+
+```{r}
+```  
+
+PCA를 사용하기 전에 전체 데이터를 이용하는 것을 고려한 뒤, PCA를 이용해서 하는 것이 좋다.  
+
+<br>
+<br>
+
+## PRACTICE  
+
+## TEST  
+
+
