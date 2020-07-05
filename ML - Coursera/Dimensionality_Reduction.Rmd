@@ -38,7 +38,8 @@ knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.he
 
 
 ```{r}
-
+library(knitr)
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image1.png")
 ```
 
 <br>
@@ -49,7 +50,7 @@ knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.he
 
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image2.png")
 ```
 
 <br>
@@ -65,7 +66,7 @@ knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.he
 많은 ML의 적용에서 시각화는 효과적인 학습 알고리즘 발전에 도움을 준다.  
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image3.png")
 ```
 
 <br>
@@ -73,10 +74,15 @@ knitr::opts_chunk$set(echo=F, fig.align = "center", message=F, warning=F, fig.he
 이 데이터를 어떻게 시각화할 것인가?  
 feature가 50개라면, 50차원을 그리는 것은 매우 어렵다.  
 
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image4.png")
+```
+
+
 차원 축소를 이용하면, 벡터로 대표되는 각 나라들 대신, z라는 다른 표현을 생각해 낼 수 있다고 하자. 이것은 2차원이다.  
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image5.png")
 ```
 
 <br>
@@ -93,6 +99,7 @@ feature가 50개라면, 50차원을 그리는 것은 매우 어렵다.
 ## Principal Component Analysis problem formulation  
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image6.png")
 ```  
 
 <br>
@@ -109,6 +116,7 @@ PCA를 적용하기 전에 feature scaling을 적용해야 한다.
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image7.png")
 ```  
 
 <br>
@@ -143,6 +151,7 @@ PCA와 linear regression의 차이는 residual과 projection error의 개념을 
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image8.png")
 ```  
 
 <br>
@@ -154,6 +163,7 @@ PCA와 linear regression의 차이는 residual과 projection error의 개념을 
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image9.png")
 ```  
 
 <br>
@@ -171,16 +181,14 @@ projection error가 최소가 되는 u1, u2를 찾는 것이다.
 2. Z를 계산  
 
 
-
 ```{r}
-```
-
-```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image10.png")
 ```  
 
 <br>  
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image12.png")
 ```
 
 n-dim에서 k-dim으로 축소하는 과정이다.  
@@ -212,7 +220,7 @@ $$
 예컨대, 100차원의 표현형 zi 가 주어진 상태에서, 원래의 1000차원 값인 xi를 어떻게 되돌려 놓냐는 문제  
 
 ```{r}
-
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image13.png")
 ```
 
 <br>
@@ -239,6 +247,7 @@ PCA의 의도는, 투영오차(projection error)의 제곱값이 너무 크지 �
 ## Choosing the number of principal commponents  
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image14.png")
 ```  
 
 <br>
@@ -253,6 +262,7 @@ x와 x의 projection의 거리의 평균 제곱과 전체 변동량의 비율이
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image15.png")
 ```  
 
 <br>
@@ -265,6 +275,7 @@ K를 선택하는 방법에는 이전의 방법과 상응하는 방법이 있는
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image16.png")
 ```  
 
 <br>
@@ -274,6 +285,7 @@ K를 선택하는 방법에는 이전의 방법과 상응하는 방법이 있는
 ## Advice for applying PCA  
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image17.png")
 ```  
 
 <br>
@@ -284,6 +296,7 @@ PCA를 실행할 때는 cross validation set 또는 test set 데이터가 아닌
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image18.png")
 ```  
 
 <br>
@@ -292,6 +305,7 @@ PCA를 실행할 때는 cross validation set 또는 test set 데이터가 아닌
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image19.png")
 ```  
 
 <br>
@@ -304,6 +318,7 @@ overfitting을 방지하기 위해서는 regularization을 대신 사용하는 �
 
 
 ```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image20.png")
 ```  
 
 PCA를 사용하기 전에 전체 데이터를 이용하는 것을 고려한 뒤, PCA를 이용해서 하는 것이 좋다.  
@@ -312,6 +327,28 @@ PCA를 사용하기 전에 전체 데이터를 이용하는 것을 고려한 뒤
 <br>
 
 ## PRACTICE  
+
+
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image21.png")
+```  
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image22.png")
+```  
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image23.png")
+```  
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image24.png")
+```  
+
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image25.png")
+```  
+
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image26.png")
+```  
 
 ## TEST  
 
