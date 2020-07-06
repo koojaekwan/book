@@ -15,7 +15,9 @@
 
 [Nueral Networks Representation](https://koojaekwan.github.io/book/ML%20-%20Coursera/Neural_networks_representation.html)  
 
-[K means](https://koojaekwan.github.io/book/ML%20-%20Coursera/Clustering.html)
+[K means](https://koojaekwan.github.io/book/ML%20-%20Coursera/Clustering.html)  
+
+[Dimension Reduction](https://koojaekwan.github.io/book/ML%20-%20Coursera/Dimensionality_Reduction.html)  
 
 ## 시민의 교양  
 
