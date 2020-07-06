@@ -239,12 +239,16 @@ k를 3으로 선택할 때와 5로 선택할 때는 위와 같다.
 
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image11.png")
-```
+```  
+
+클러스터링은 둘 다 이용될 수 있다.  
 
 
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image12.png")
-```
+```  
+
+두번째는 3의 클러스터,세번째는 5의 클러스터로 할당된다.  
 
 
 ```{r}
@@ -254,19 +258,24 @@ include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/�
 
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image14.png")
-```
+```  
+
+데이터 포인트 중 랜덤으로 선택  
 
 
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image15.png")
-```
+```  
 
+k를 늘려감에 따라 cost가 같거나 감소해야하는데, 잘못된 오류가 발생했다고 생각할 수 있을것  
 
 ## Exercise
 
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/Kmeans/image16.png")
-```
+```  
+
+
 
 
 ```{r}
