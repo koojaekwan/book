@@ -133,7 +133,7 @@ PCA의 목표가 데이터를 2차원->1차원으로 줄이는 것이라고 하�
 PCA에서는 이런 방식으로 데이터를 투영하게 되어 projection distance를 최소화하는 것이다.  
 
 
-GIF  
+![](https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/movie.gif)  
 
 <br>
 
@@ -328,23 +328,34 @@ PCA를 사용하기 전에 전체 데이터를 이용하는 것을 고려한 뒤
 
 ## PRACTICE  
 
-
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image21.png")
 ```  
+
+차원축소의 개념  
+
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image22.png")
 ```  
+
+차원축소의 개념  
+
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image23.png")
 ```  
+
+
+
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image24.png")
 ```  
 
+
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image25.png")
 ```  
+
+축소된 것이 없으므로 전체를 이용한 것과 같다.  
 
 ```{r}
 include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/image26.png")
@@ -352,4 +363,36 @@ include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/�
 
 ## TEST  
 
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/test1.png")
+```
+
+1,3사분면의 벡터를 선택하면 된다.  
+
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/test2.png")
+```
+
+projection error가 최소가되는 k를 선택하는 것이며, 전체 데이터의 분산이 적어도 99% 유지되게끔 k를 선택하는 것이 좋다고 강의에서는 소개하고 있다.  
+
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/test3.png")
+```
+
+강의노트 참조  
+
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/test4.png")
+```
+
+PCA는 기존 데이터의 차원을 줄인다.  
+PCA전에 단위가 맞지않으면 변수간 단위를 없애주는 scaling작업을 하는 것이 좋다  
+
+
+
+```{r}
+include_graphics("https://raw.githack.com/koojaekwan/book/master/ML - Coursera/이미지/PCA/test5.png")
+```  
+
+데이터 압축과 시각화  
 
